@@ -1,0 +1,13 @@
+[
+  {
+    "id": "796410aa-20eb-4846-bfc5-fddc98da517e",
+    "user_id": "708cad8b-5cf4-4819-b653-3907f5eb1b17",
+    "account_id": "Simulated_Account_001",
+    "merchant": "edX",
+    "category": "Education",
+    "transaction_type": "expense",
+    "date": "2024-10-01T10:15:30Z",
+    "amount": 49.99,
+    "description": "Online course subscription"
+    }
+]

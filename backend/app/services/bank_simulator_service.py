@@ -44,7 +44,7 @@ class BankSimulatorService:
                     'Other': (5, 200)
                 }
 
-                min_amount, max_amount = amount_ranges(category, (10, 100))
+                min_amount, max_amount = amount_ranges.get(category, (10, 100))
                 amount = round(random.uniform(min_amount, max_amount), 2)
 
                 merchant = random.choice(self.MERCHANTS[category])
