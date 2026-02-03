@@ -1,0 +1,11 @@
+[
+  {
+    "id": "708cad8b-5cf4-4819-b653-3907f5eb1b17",
+    "username": "testuser",
+    "first_name": "John",
+    "last_name": "Doe",
+    "hashed_password": "$2b$12$OgeQbGZ0PMCDu71W5.OCV.h56qzJ5pKQIV.2uLWKkW8gznKRAnoU2",
+    "created_at": "2026-01-27T03:03:59.238693",
+    "email": "john@example.com"
+  }
+]
