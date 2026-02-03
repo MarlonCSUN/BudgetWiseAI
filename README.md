@@ -1,357 +1,333 @@
-# BudgetWise - Personal Finance Tracker
-A full-stack web application for managing personal finances with budgeting, transaction tracking, goal setting, and AI powered insights.
-🎯 Project Overview
-BudgetWise helps users take control of their finances by:
+# 💰 BudgetWise - Smart Personal Finance Tracker
 
-Tracking income and expenses across accounts
-Setting and monitoring budgets by category
-Creating and achieving savings goals
-Getting AI powered financial insights
-Simulating realistic bank transactions for testing
+## 📖 About
 
-🛠️ Tech Stack
-Frontend
+BudgetWise is a modern, full-stack personal finance management application designed to help users track their spending, create budgets, set financial goals, and receive AI-powered financial insights. Built as an educational project, it demonstrates best practices in web development, API design, and user experience.
 
-React 18.2+ with TypeScript
-React Router for navigation
-Axios for API communication
-Inline CSS for styling
+### Why BudgetWise?
 
-Backend
+- **🎯 Smart Budgeting**: Set category-based budgets and track spending in real-time
+- **📊 Transaction Tracking**: Monitor all your income and expenses in one place
+- **🎯 Goal Setting**: Create savings goals and track your progress
+- **🤖 AI Insights**: Get personalized financial recommendations (coming soon)
+- **🔒 Secure**: JWT-based authentication with encrypted password storage
+- **🎨 Modern UI**: Clean, intuitive interface with responsive design
+- **📱 No Bank Connection Required**: Perfect for learning and demonstration purposes
 
-Python 3.12
-FastAPI for REST API
-JWT for authentication
-Pydantic for data validation
-JSON files for local data storage (no database required)
+---
 
-📋 Prerequisites
-Before you begin, ensure you have installed:
+## ✨ Features
 
-Node.js 18+ and npm
-Python 3.12 (NOT 3.13 or 3.14)
-Git
+### Current Features (v0.2.0)
 
-🚀 Getting Started
-1. Clone the Repository
-bashgit clone <your-repo-url>
-cd budgetWise
-2. Backend Setup
-Windows (PowerShell):
-powershell# Navigate to backend folder
+- ✅ **User Authentication**
+  - Secure signup and login with JWT tokens
+  - Password validation (uppercase, lowercase, numbers, symbols)
+  - Protected routes and session management
+
+- ✅ **Transaction Management**
+  - Create, read, update, and delete transactions
+  - Filter by category, type, and date
+  - Automatic balance calculation
+  - Bank simulator for generating realistic test data
+
+- ✅ **Dashboard Overview**
+  - Total balance display
+  - Top spending categories
+  - Recent transaction history
+  - Budget and goal progress tracking
+
+Here's the README in a code block for easy copy-paste:
+markdown# 💰 BudgetWise - Smart Personal Finance Tracker
+
+<div align="center">
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.12-blue.svg)
+![React](https://img.shields.io/badge/react-18.2-blue.svg)
+![TypeScript](https://img.shields.io/badge/typescript-5.3-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green.svg)
+
+**Take control of your finances with AI-powered insights**
+
+[Features](#-features) • [Demo](#-demo) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
+
+</div>
+
+---
+
+## 📖 About
+
+BudgetWise is a modern, full-stack personal finance management application designed to help users track their spending, create budgets, set financial goals, and receive AI-powered financial insights. Built as an educational project, it demonstrates best practices in web development, API design, and user experience.
+
+### Why BudgetWise?
+
+- **🎯 Smart Budgeting**: Set category-based budgets and track spending in real-time
+- **📊 Transaction Tracking**: Monitor all your income and expenses in one place
+- **🎯 Goal Setting**: Create savings goals and track your progress
+- **🤖 AI Insights**: Get personalized financial recommendations (coming soon)
+- **🔒 Secure**: JWT-based authentication with encrypted password storage
+- **🎨 Modern UI**: Clean, intuitive interface with responsive design
+- **📱 No Bank Connection Required**: Perfect for learning and demonstration purposes
+
+---
+
+## ✨ Features
+
+### Current Features (v0.2.0)
+
+- ✅ **User Authentication**
+  - Secure signup and login with JWT tokens
+  - Password validation (uppercase, lowercase, numbers, symbols)
+  - Protected routes and session management
+
+- ✅ **Transaction Management**
+  - Create, read, update, and delete transactions
+  - Filter by category, type, and date
+  - Automatic balance calculation
+  - Bank simulator for generating realistic test data
+
+- ✅ **Dashboard Overview**
+  - Total balance display
+  - Top spending categories
+  - Recent transaction history
+  - Budget and goal progress tracking
+
+### Coming Soon
+
+- 🚧 **Budget Creation & Tracking** (Phase 3)
+- 🚧 **Savings Goals** (Phase 4)
+- 🚧 **AI-Powered Insights** via Azure AI (Phase 5)
+- 🚧 **Spending Forecasts & Alerts** (Phase 6)
+- 🚧 **Achievements & Rewards** (Phase 7)
+- 🚧 **Export Data & Reports** (Phase 8)
+
+---
+
+## 🎥 Demo
+
+### Screenshots
+
+> **Note:** Add screenshots here once UI is complete
+
+### Live Demo
+
+> **Coming Soon:** We'll deploy a live demo once core features are complete
+
+---
+
+## 🛠️ Tech Stack
+
+<table>
+<tr>
+<td>
+
+**Frontend**
+- React 18.2 with TypeScript
+- React Router for navigation
+- Axios for API requests
+- Custom styling (inline CSS)
+- JWT token management
+
+</td>
+<td>
+
+**Backend**
+- Python 3.12
+- FastAPI framework
+- Pydantic for validation
+- Python-JOSE for JWT
+- Passlib for password hashing
+- JSON file storage (no DB required)
+
+</td>
+</tr>
+</table>
+
+### Why These Technologies?
+
+- **FastAPI**: Modern, fast, and auto-generates API documentation
+- **React + TypeScript**: Type-safe frontend development with excellent tooling
+- **JWT Authentication**: Industry-standard, stateless authentication
+- **JSON Storage**: Simplifies setup for educational/demo purposes (easily replaceable with PostgreSQL/MongoDB)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+Ensure you have the following installed:
+- **Node.js** 18+ and npm ([Download](https://nodejs.org/))
+- **Python** 3.12 ([Download](https://www.python.org/downloads/))
+- **Git** ([Download](https://git-scm.com/))
+
+> ⚠️ **Important:** Use Python 3.12, not 3.13 or 3.14 (dependency compatibility issues)
+
+### Installation
+
+#### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/yourusername/budgetwise.git
+cd budgetwise
+```
+
+#### 2️⃣ Backend Setup
+
+**Windows (PowerShell):**
+```powershell
 cd backend
-
-# Create virtual environment with Python 3.12
 py -3.12 -m venv venv
-
-# Activate virtual environment
 .\venv\Scripts\Activate.ps1
-
-# If you get execution policy error, run:
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Install dependencies
-pip install --upgrade pip
 pip install -r requirements.txt
 
-# Create .env file
-Copy-Item .env.example .env
+# Create environment file
+copy .env.example .env
+# Edit .env and set a strong SECRET_KEY
 
-# Edit .env and set your SECRET_KEY (any random string 32+ characters)
-# Example: SECRET_KEY=budgetwiseai_secret_key_change_this_in_production
-
-# Create data directory and initialize JSON files
+# Initialize data storage
 mkdir data -ErrorAction SilentlyContinue
-Set-Content -Path "data\users.json" -Value "[]"
-Set-Content -Path "data\transactions.json" -Value "[]"
-Set-Content -Path "data\budgets.json" -Value "[]"
-Set-Content -Path "data\goals.json" -Value "[]"
+"[]" | Out-File -FilePath "data\users.json"
+"[]" | Out-File -FilePath "data\transactions.json"
+"[]" | Out-File -FilePath "data\budgets.json"
+"[]" | Out-File -FilePath "data\goals.json"
 
-# Start the backend server
+# Start server
 uvicorn app.main:app --reload --port 8000
-Mac/Linux:
-bash# Navigate to backend folder
+```
+
+**macOS/Linux:**
+```bash
 cd backend
-
-# Create virtual environment
 python3.12 -m venv venv
-
-# Activate virtual environment
 source venv/bin/activate
-
-# Install dependencies
-pip install --upgrade pip
 pip install -r requirements.txt
 
-# Create .env file
+# Create environment file
 cp .env.example .env
+# Edit .env and set a strong SECRET_KEY
 
-# Edit .env and set your SECRET_KEY
-nano .env
-
-# Create data directory and initialize JSON files
+# Initialize data storage
 mkdir -p data
 echo "[]" > data/users.json
 echo "[]" > data/transactions.json
 echo "[]" > data/budgets.json
 echo "[]" > data/goals.json
 
-# Start the backend server
+# Start server
 uvicorn app.main:app --reload --port 8000
-Backend should now be running at: http://localhost:8000
-API Documentation: http://localhost:8000/docs
+```
 
-3. Frontend Setup
-Open a new terminal (keep backend running):
-Windows (PowerShell):
-powershell# Navigate to frontend folder
+✅ Backend running at: **http://localhost:8000**  
+📚 API Docs at: **http://localhost:8000/docs**
+
+#### 3️⃣ Frontend Setup
+
+Open a **new terminal** (keep backend running):
+```bash
 cd frontend
-
-# Install dependencies
 npm install
 
-# Create .env file
-Copy-Item .env.example .env
-
-# Start the development server
-npm start
-Mac/Linux:
-bash# Navigate to frontend folder
-cd frontend
-
-# Install dependencies
-npm install
-
-# Create .env file
+# Create environment file
 cp .env.example .env
 
-# Start the development server
+# Start development server
 npm start
-Frontend should now be running at: http://localhost:3000
+```
 
-📁 Project Structure
-budgetWise/
-├── backend/
+✅ Frontend running at: **http://localhost:3000**
+
+---
+
+## 📚 Documentation
+
+### API Endpoints
+
+Full interactive API documentation available at `http://localhost:8000/docs` when running.
+
+#### Authentication
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/api/v1/auth/signup` | Register new user | ❌ |
+| POST | `/api/v1/auth/login` | Login and get JWT token | ❌ |
+| GET | `/api/v1/auth/me` | Get current user info | ✅ |
+
+#### Transactions
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/api/v1/transactions/` | List all transactions (with filters) | ✅ |
+| GET | `/api/v1/transactions/balance` | Get account balance | ✅ |
+| GET | `/api/v1/transactions/{id}` | Get single transaction | ✅ |
+| POST | `/api/v1/transactions/` | Create transaction | ✅ |
+| PUT | `/api/v1/transactions/{id}` | Update transaction | ✅ |
+| DELETE | `/api/v1/transactions/{id}` | Delete transaction | ✅ |
+| POST | `/api/v1/transactions/generate-sample` | Generate test data | ✅ |
+
+### Project Structure
+```
+budgetwise/
+├── backend/                    # FastAPI backend
 │   ├── app/
-│   │   ├── api/
-│   │   │   ├── v1/
-│   │   │   │   ├── endpoints/
-│   │   │   │   │   ├── auth.py           # Authentication endpoints
-│   │   │   │   │   └── transactions.py   # Transaction endpoints
-│   │   │   │   └── api.py                # API router
-│   │   │   └── deps.py                   # Dependencies (auth, db)
-│   │   ├── core/
-│   │   │   ├── config.py                 # Configuration settings
-│   │   │   └── security.py               # JWT & password hashing
-│   │   ├── models/
-│   │   │   ├── user.py                   # User data model
-│   │   │   └── transaction.py            # Transaction data model
-│   │   ├── schemas/
-│   │   │   ├── user.py                   # User validation schemas
-│   │   │   ├── transaction.py            # Transaction validation schemas
-│   │   │   └── token.py                  # JWT token schemas
-│   │   ├── services/
-│   │   │   ├── auth_service.py           # Authentication business logic
-│   │   │   ├── transaction_service.py    # Transaction business logic
-│   │   │   └── bank_simulator_service.py # Fake transaction generator
-│   │   ├── storage/
-│   │   │   └── json_store.py             # JSON file database
-│   │   └── main.py                       # FastAPI application entry
-│   ├── data/                             # JSON data files (gitignored)
-│   ├── requirements.txt                  # Python dependencies
-│   └── .env                              # Environment variables (gitignored)
+│   │   ├── api/               # API routes
+│   │   │   └── v1/
+│   │   │       ├── endpoints/ # Route handlers
+│   │   │       └── api.py     # Router configuration
+│   │   ├── core/              # Core functionality
+│   │   │   ├── config.py      # Settings
+│   │   │   └── security.py    # Auth utilities
+│   │   ├── models/            # Data models
+│   │   ├── schemas/           # Pydantic schemas
+│   │   ├── services/          # Business logic
+│   │   ├── storage/           # Data persistence
+│   │   └── main.py            # Application entry
+│   ├── data/                  # JSON data files (gitignored)
+│   ├── requirements.txt       # Python dependencies
+│   └── .env                   # Environment variables (gitignored)
 │
-├── frontend/
-│   ├── public/
+├── frontend/                   # React frontend
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/                   # Reusable components
-│   │   │   ├── auth/                     # Auth-related components
-│   │   │   ├── dashboard/                # Dashboard widgets
-│   │   │   ├── activity/                 # Transaction components
-│   │   │   └── budgets/                  # Budget components
-│   │   ├── pages/
-│   │   │   ├── Login.tsx                 # Login page
-│   │   │   ├── Signup.tsx                # Signup page
-│   │   │   └── Dashboard.tsx             # Main dashboard
-│   │   ├── services/
-│   │   │   ├── api.ts                    # Axios configuration
-│   │   │   └── auth.service.ts           # Auth API calls
-│   │   ├── context/
-│   │   │   └── AuthContext.tsx           # Global auth state
-│   │   ├── types/
-│   │   │   └── auth.types.ts             # TypeScript types
-│   │   ├── routes.tsx                    # React Router setup
-│   │   └── App.tsx                       # Main app component
+│   │   ├── components/        # Reusable components
+│   │   ├── pages/             # Page components
+│   │   ├── services/          # API services
+│   │   ├── context/           # React context
+│   │   ├── types/             # TypeScript types
+│   │   └── routes.tsx         # Route configuration
 │   ├── package.json
-│   └── .env                              # Frontend env vars (gitignored)
+│   └── .env                   # Environment variables (gitignored)
 │
 └── README.md
+```
 
-🔐 Environment Variables
-Backend .env
-envSECRET_KEY=your-super-secret-key-at-least-32-characters-long
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-BACKEND_CORS_ORIGINS=http://localhost:3000
-DATA_DIR=./data
-Frontend .env
-envREACT_APP_API_URL=http://localhost:8000
-REACT_APP_ENV=development
+---
 
-🧪 Testing the Application
-1. Create a Test Account
+## 🧪 Testing
 
-Open http://localhost:3000/signup
-Fill in the form:
+### Quick Test Guide
 
-Username: testuser
-First Name: John
-Last Name: Doe
-Email: john@example.com
-Password: Test123!@# (must meet requirements)
+1. **Start both servers** (backend and frontend)
 
+2. **Create an account:**
+   - Go to http://localhost:3000/signup
+   - Fill in the form with valid data
+   - Password must have: uppercase, lowercase, number, symbol, 8+ chars
 
-Click "Sign Up"
+3. **Generate sample transactions:**
+   - Login to get JWT token at http://localhost:8000/docs
+   - Use `POST /api/v1/transactions/generate-sample`
+   - Set count to 30 for a month of data
 
-2. Login
+4. **Explore the API:**
+   - Visit http://localhost:8000/docs
+   - Use the "Authorize" button with your JWT token
+   - Try different endpoints and filters
 
-You'll be redirected to login automatically after signup
-Or go to http://localhost:3000/login
-Enter credentials and login
+### Running Tests
+```bash
+# Backend tests (coming soon)
+cd backend
+pytest
 
-3. Generate Sample Transactions
-Option A: Via API Docs (Recommended)
-
-Go to http://localhost:8000/docs
-Click "Authorize" button (🔒 icon)
-Login to get your token (POST /api/v1/auth/login)
-Copy the access_token
-Click "Authorize" again and paste: Bearer YOUR_TOKEN_HERE
-Find POST /api/v1/transactions/generate-sample
-Set count to 30
-Click "Execute"
-
-Option B: Via curl
-bash# First login to get token
-curl -X POST http://localhost:8000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "testuser", "password": "Test123!@#"}'
-
-# Copy the access_token from response
-
-# Generate transactions
-curl -X POST "http://localhost:8000/api/v1/transactions/generate-sample?count=30" \
-  -H "Authorization: Bearer YOUR_TOKEN_HERE"
-4. View Transactions
-
-Go to http://localhost:8000/docs
-Try GET /api/v1/transactions/ (shows all transactions)
-Try GET /api/v1/transactions/balance (shows total balance)
-Try filtering: GET /api/v1/transactions/?category=Groceries
-
-
-📝 API Endpoints
-Authentication
-MethodEndpointDescriptionPOST/api/v1/auth/signupCreate new user accountPOST/api/v1/auth/loginLogin and get JWT tokenGET/api/v1/auth/meGet current user info (requires auth)
-Transactions
-MethodEndpointDescriptionGET/api/v1/transactions/Get all user transactions (with filters)GET/api/v1/transactions/balanceGet account balanceGET/api/v1/transactions/{id}Get specific transactionPOST/api/v1/transactions/Create new transactionPUT/api/v1/transactions/{id}Update transactionDELETE/api/v1/transactions/{id}Delete transactionPOST/api/v1/transactions/generate-sampleGenerate fake transactions
-
-🐛 Troubleshooting
-Backend Issues
-Problem: uvicorn: command not found
-powershell# Make sure virtual environment is activated
-.\venv\Scripts\Activate.ps1
-
-# Reinstall uvicorn
-pip install uvicorn
-Problem: ImportError: cannot import name 'X'
-
-Check that all files are created in the correct location
-Make sure file names match exactly (case-sensitive)
-Restart the server
-
-Problem: bcrypt or pydantic errors
-powershellpip uninstall bcrypt pydantic pydantic-core -y
-pip install bcrypt==4.0.1 pydantic==2.8.0
-Frontend Issues
-Problem: npm install fails
-bash# Clear cache and retry
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
-Problem: CORS errors in browser
-
-Make sure backend .env has: BACKEND_CORS_ORIGINS=http://localhost:3000
-Restart backend server
-
-Problem: Can't login/signup
-
-Check browser console for errors
-Make sure backend is running on port 8000
-Check network tab in browser dev tools
-
-
-👥 Team Workflow
-Working on Features
-
-Pull latest changes:
-
-bash   git pull origin main
-
-Create a feature branch:
-
-bash   git checkout -b feature/your-feature-name
-
-Make your changes and commit:
-
-bash   git add .
-   git commit -m "Add: description of changes"
-
-Push and create pull request:
-
-bash   git push origin feature/your-feature-name
-Running Teammate's Code
-
-Pull their branch:
-
-bash   git fetch
-   git checkout their-branch-name
-
-Install any new dependencies:
-
-bash   # Backend
-   cd backend
-   pip install -r requirements.txt
-
-   # Frontend
-   cd frontend
-   npm install
-
-Run both servers as described in Getting Started
-
-
-📦 Dependencies
-Backend (requirements.txt)
-txtfastapi==0.115.0
-uvicorn[standard]==0.30.0
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.9
-pydantic==2.8.0
-pydantic-settings==2.3.0
-python-dotenv==1.0.1
-pytest==8.2.0
-pytest-asyncio==0.23.0
-httpx==0.27.0
-bcrypt==4.0.1
-Frontend (package.json)
-json{
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0",
-    "typescript": "^5.3.0",
-    "axios": "^1.6.0"
-  }
-}
+# Frontend tests (coming soon)
+cd frontend
+npm test
+```
