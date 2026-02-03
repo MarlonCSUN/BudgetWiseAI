@@ -1,9 +1,9 @@
 from typing import List, Optional, Dict, Any
 from datetime import datetime
+import uuid
 from app.storage.json_store import JSONStore
 from app.models.transaction import Transaction
 from app.schemas.transaction import TransactionCreate, TransactionUpdate
-import uuid
 
 class TransactionService:
     def __init__(self, db: JSONStore):

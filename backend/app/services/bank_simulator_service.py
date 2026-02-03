@@ -17,7 +17,7 @@ class BankSimulatorService:
         'Other': ['Miscellaneous Store', 'Local Market', 'Charity Donation']
     }
 
-    def generate_transaction(self, user_id: str, count: int = 20) -> List[dict]:
+    def generate_transactions(self, user_id: str, count: int = 20) -> List[dict]:
         transactions = []
         current_date = datetime.utcnow()
 
