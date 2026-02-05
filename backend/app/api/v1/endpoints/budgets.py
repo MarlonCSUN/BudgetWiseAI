@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get("/", response_model=List[BudgetResponse])
 def get_budgets(
     month: Optional[str] = Query(None),
-    yeadr: Optional[int] = Query(None),
+    year: Optional[int] = Query(None),
     active_only: bool = Query(True),
     current_user: User = Depends(get_current_user),
     db: JSONStore = Depends(get_db),
@@ -20,7 +20,7 @@ def get_budgets(
     budgets = budget_service.get_user_budgets(
         user_id=current_user.id,
         month=month,
-        year=yeadr,
+        year=year,
         active_only=active_only,
     )
 
@@ -49,10 +49,22 @@ def get_budget_summary(
     db: JSONStore = Depends(get_db)
 ):
     budget_service = BudgetService(db)
-    budget = budget_service.get_budget_by_id(current_user.id)
+    return budget_service.get_budget_summary(current_user.id)
 
+@router.get("/{budget_id}", response_model=BudgetResponse)
+def get_budget(
+    budget_id: str,
+    current_user: User = Depends(get_current_user),
+    db: JSONStore = Depends(get_db)
+):
+    budget_service = BudgetService(db)
+    budget = budget_service.get_budget_by_id(budget_id, current_user.id)
+    
     if not budget:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Budget not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Budget not found"
+        )
     
     return BudgetResponse(
         id=budget.id,
@@ -67,7 +79,7 @@ def get_budget_summary(
         is_active=budget.is_active,
         is_over_budget=budget.spent > budget.limit,
         created_at=budget.created_at.isoformat(),
-        updated_at=budget.updated_at.isoformat() 
+        updated_at=budget.updated_at.isoformat()
     )
 
 @router.post("/", response_model=BudgetResponse, status_code=status.HTTP_201_CREATED)

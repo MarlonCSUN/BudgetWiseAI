@@ -68,7 +68,7 @@ class BudgetService:
         return budget
     
     def get_user_budgets(self, user_id: str, month: Optional[str] = None, year: Optional[int] = None, active_only: bool = True) -> List[Budget]:
-        all_budgets = self.db.find_one(self.collection)
+        all_budgets = self.db.find_all(self.collection)
 
         user_budgets = [
             Budget(**b) for b in all_budgets
