@@ -1,13 +1,14 @@
 [
   {
-    "id": "796410aa-20eb-4846-bfc5-fddc98da517e",
+    "id": "b6db18c4-afef-4b25-84c0-cc457e098dc8",
     "user_id": "708cad8b-5cf4-4819-b653-3907f5eb1b17",
     "account_id": "Simulated_Account_001",
-    "merchant": "edX",
-    "category": "Education",
+    "merchant": "Chevron",
+    "category": "Transportation",
     "transaction_type": "expense",
-    "date": "2024-10-01T10:15:30Z",
-    "amount": 49.99,
-    "description": "Online course subscription"
-    }
+    "date": "2026-01-17T20:01:23.279694",
+    "description": "Transportation transaction at Chevron",
+    "amount": 80.98,
+    "created_at": "2026-01-17T20:01:23.279694"
+  }
 ]

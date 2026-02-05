@@ -56,10 +56,10 @@ class BankSimulatorService:
                     "merchant": merchant,
                     "category": category,
                     "transaction_type": transaction_type,
-                    "date": transaction_date,
+                    "date": transaction_date.isoformat(),
                     "description": f"{category} transaction at {merchant}",
                     "amount": amount,
-                    "created_at": transaction_date
+                    "created_at": transaction_date.isoformat(),
                 }
 
                 transactions.append(transaction)

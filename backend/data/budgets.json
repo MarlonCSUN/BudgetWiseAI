@@ -1,0 +1,14 @@
+[
+  {
+    "id": "0cccfb31-711e-4119-b580-263dc33d44ea",
+    "user_id": "708cad8b-5cf4-4819-b653-3907f5eb1b17",
+    "category": "Groceries",
+    "limit": 200.0,
+    "spent": 0.0,
+    "month": "February",
+    "year": 2026,
+    "is_active": true,
+    "created_at": "2026-02-05T02:32:09.633565",
+    "updated_at": "2026-02-05T02:32:09.633565"
+  }
+]

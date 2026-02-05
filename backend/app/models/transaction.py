@@ -3,9 +3,9 @@ from typing import Optional
 from datetime import datetime
 
 class Transaction(BaseModel):
-    id: int
-    user_id: int
-    account_id: int
+    id: str
+    user_id: str
+    account_id: str
     merchant: str
     category: str
     transaction_type: str
