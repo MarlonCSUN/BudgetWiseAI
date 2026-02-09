@@ -62,7 +62,7 @@ const Login: React.FC = () => {
                 fontWeight: "600",
               }}
             >
-              Take Control of Your Finances
+              Log In to Your Account
             </h2>
             <p
               style={{
@@ -70,12 +70,11 @@ const Login: React.FC = () => {
                 color: "#a0a0a0",
               }}
             >
-              Track spending, set budgets, achieve goals, and get AI-powered
-              insights to make smarter financial decisions.
+              Pick up where you left off and stay in control of your finances.
               <br />
               <br />
-              Join BudgetWise AI today and start your journey to financial
-              freedom!
+              Track your spending, monitor budgets, and get AI-powered insights
+              tailored just for you.
             </p>
           </div>
         </div>

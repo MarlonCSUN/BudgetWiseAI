@@ -135,7 +135,7 @@ const Signup: React.FC = () => {
                 fontWeight: "600",
               }}
             >
-              Take Control of Your Finances
+              Create Your Account
             </h2>
             <p
               style={{
