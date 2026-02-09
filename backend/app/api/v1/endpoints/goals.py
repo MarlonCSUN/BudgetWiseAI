@@ -29,7 +29,7 @@ def _goal_to_response(goal) -> GoalResponse:
         target_amount=goal.target_amount,
         current_amount=goal.current_amount,
         remaining_amount=remaining_amount,
-        percentage_complete=(goal.current_amount / goal.target_amount * 100) if goal.target_amount > 0 else 0,
+        percentage_completed=(goal.current_amount / goal.target_amount * 100) if goal.target_amount > 0 else 0,
         target_date=goal.target_date.isoformat(),
         priority=goal.priority,
         is_completed=goal.is_completed,

@@ -70,7 +70,7 @@ class GoalResponse(BaseModel):
     target_amount: float
     current_amount: float
     remaining_amount: float
-    percentage_complete: float
+    percentage_completed: float
     target_date: datetime
     priority: str
     is_completed: bool
