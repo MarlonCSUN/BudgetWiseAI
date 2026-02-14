@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./SideBar";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
