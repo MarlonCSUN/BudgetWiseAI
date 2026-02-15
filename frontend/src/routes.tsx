@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import DashboardLayout from "./components/layout/DashboardLayout";
+import Layout from "./components/layout/Layout";
 import Goals from "./pages/Goals";
 import Budget from "./pages/Budget";
 import Transactions from "./pages/Transactions";
@@ -17,7 +17,7 @@ const AppRoutes: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route element={<DashboardLayout />}>
+        <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/budget" element={<Budget />} />
