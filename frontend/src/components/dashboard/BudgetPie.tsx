@@ -19,7 +19,6 @@ const chartData = isOverBudget
 
 export default function BalanceWidget() {
   const isOverBudget = remaining < 0;
-  const total = chartData.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <div className="flex justify-center">

@@ -1,7 +1,6 @@
 import BudgetPie from "../components/dashboard/BudgetPie";
 import { Calendar } from "lucide-react";
-import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 const Dashboard: React.FC = () => {
   // Avoids useMemo and instantly initializes selectedMonth to the current month on component mount
@@ -77,10 +76,33 @@ const Dashboard: React.FC = () => {
     },
   ];
 
+  const goals = [
+    {
+      id: "goal_1",
+      title: "Emergency Fund",
+      progressPercent: 45,
+    },
+    {
+      id: "goal_3",
+      title: "Pay Off Credit Card",
+      progressPercent: 82,
+    },
+    {
+      id: "goal_4",
+      title: "New Laptop",
+      progressPercent: 30,
+    },
+    {
+      id: "goal_5",
+      title: "Car Down Payment",
+      progressPercent: 55,
+    },
+  ];
+
   const widgetCardStyle = "shadow-lg p-4 rounded-md bg-white";
 
   return (
-    <div className="dashboard-container py-8 px-6 gap-4 flex flex-col">
+    <div className="dashboard-container py-8 px-4 gap-4 flex flex-col">
       {/* Welcome message with current month */}
       <div className="dashboard-header flex items-baseline justify-between mb-4">
         <div className="welcome-message">
@@ -154,15 +176,15 @@ const Dashboard: React.FC = () => {
             <div className="left-side-balance-snapshot flex-1 space-y-4 gap-2 flex flex-col">
               <div className="remaining-balance bg-gray-50 border border-gray-100 rounded-md flex items-center justify-between gap-2 p-2">
                 <h3>Remaining: </h3>
-                <p className="text-green-500 font-bold text-lg">$200</p>
+                <p className="text-blue-500 font-bold text-lg">$800</p>
               </div>
               <div className="income-balance bg-gray-50 border border-gray-100 rounded-md flex items-center justify-between gap-2 p-2">
                 <h3>Income: </h3>
-                <p className="text-blue-500 font-bold text-lg">$2,200</p>
+                <p className="text-green-500 font-bold text-lg">$3,000</p>
               </div>
               <div className="expenses bg-gray-50 border border-gray-100 rounded-md flex items-center justify-between gap-2 p-2">
                 <h3>Expenses:</h3>
-                <p className="text-amber-500 font-bold text-lg">$2,000</p>
+                <p className="text-amber-500 font-bold text-lg">$2,200</p>
               </div>
             </div>
 
@@ -208,7 +230,7 @@ const Dashboard: React.FC = () => {
                       {transaction.amount > 0 ? "+" : "-"}
                     </div>
                     <div className="transaction-details">
-                      <p className="transaction-name text-sm font-medium">
+                      <p className="transaction-name text-sm font-normal">
                         {transaction.name}
                       </p>
                       <p className="transaction-date text-xs text-gray-500">
@@ -237,7 +259,114 @@ const Dashboard: React.FC = () => {
             href="/transactions"
             className="text-xs mt-auto pt-4 font-medium text-emerald-600 hover:text-emerald-700 transition"
           >
-            See all
+            View all
+          </a>
+        </div>
+      </div>
+
+      {/* AI Chat Widget & Goals List */}
+      <div className="flex items-stretch gap-2 h-[310px] max-h-[315px]">
+        {/* AI Chat Widget */}
+        <div
+          className={`ai-chat-widget flex flex-col ${widgetCardStyle} w-3/4`}
+        >
+          {/* Widget Title */}
+          <h2 className="widget-title relative text-lg font-serifDisplay mb-3">
+            AI Widget
+            <span className="absolute left-0 -bottom-0 w-16 h-[0.15px] bg-black"></span>
+          </h2>
+
+          {/* Chat Messages Area */}
+          <div className="flex-1 overflow-y-auto px-2 space-y-3 mb-3">
+            {/* Assistant Message */}
+            <div className="flex justify-start">
+              <div className="bg-gray-100 text-sm px-4 py-2 rounded-2xl rounded-bl-sm max-w-[75%]">
+                Hi Willyam 👋 I can help analyze your spending or set a goal.
+              </div>
+            </div>
+
+            {/* User Message */}
+            <div className="flex justify-end">
+              <div className="bg-emerald-500 text-white text-sm px-4 py-2 rounded-2xl rounded-br-sm max-w-[75%]">
+                I spent $15 on coffee today.
+              </div>
+            </div>
+
+            {/* Assistant Message */}
+            <div className="flex justify-start">
+              <div className="bg-gray-100 text-sm px-4 py-2 rounded-2xl rounded-bl-sm max-w-[75%]">
+                Got it! ☕ I categorized that under Food & Drinks.
+              </div>
+            </div>
+
+            <div className="flex justify-start">
+              <div className="bg-gray-100 text-sm px-4 py-2 rounded-2xl rounded-bl-sm max-w-[75%]">
+                Got it! ☕ I categorized that under Food & Drinks.
+              </div>
+            </div>
+            <div className="flex justify-start">
+              <div className="bg-gray-100 text-sm px-4 py-2 rounded-2xl rounded-bl-sm max-w-[75%]">
+                Got it! ☕ I categorized that under Food & Drinks.
+              </div>
+            </div>
+          </div>
+
+          {/* Chat Input Area */}
+          <div className="border-t pt-2 flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className="flex-1 text-sm px-3 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            <button className="bg-emerald-600 text-white text-sm px-4 py-2 rounded-full hover:bg-emerald-700 transition">
+              Send
+            </button>
+          </div>
+
+          {/* View Budget Link */}
+          <a
+            href="/bw-ai"
+            className="text-xs mt-auto pt-4 font-medium text-emerald-600 hover:text-emerald-700 transition"
+          >
+            Visit AI
+          </a>
+        </div>
+
+        {/* Goals */}
+        <div
+          className={`goals-widget relative flex flex-col ${widgetCardStyle} w-1/4`}
+        >
+          {/* Widget Title */}
+          <h2 className="widget-title mt-auto relative text-lg font-serifDisplay mb-3">
+            Goals
+            <span className="absolute left-0 -bottom-0 w-16 h-[0.15px] bg-black"></span>
+          </h2>
+          <div className="overflow-y-auto scrollbar-hide flex-1 pr-2">
+            <div className="goals-list flex flex-col space-y-3">
+              {goals.map((goal) => {
+                return (
+                  <div className="goal-item flex flex-col gap-1 leading-tight">
+                    <p className="font-normal text-sm">{goal.title}</p>
+                    {/* Progress Bar */}
+                    <div className="progress-bar h-[10px] rounded-md w-full bg-gray-100">
+                      <div
+                        style={{ width: goal.progressPercent }}
+                        className="pl-1 h-full bg-emerald-400 rounded-md"
+                      ></div>
+                    </div>
+                    <p className="text-xs m-0 p-0 text-right text-gray-600">
+                      {goal.progressPercent}%
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <a
+            href="/goals"
+            className="text-xs mt-auto pt-4 font-medium text-emerald-600 hover:text-emerald-700 transition"
+          >
+            View all
           </a>
         </div>
       </div>
