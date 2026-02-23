@@ -1,7 +1,19 @@
-import React from "react";
+import { useState } from "react";
+import Sidebar from "./SideBar";
+import { Outlet } from "react-router-dom";
 
-const Layout = () => {
-  return <div>Layout</div>;
-};
+export default function Layout() {
+  const [collapsed, setCollapsed] = useState(false);
 
-export default Layout;
+  return (
+    <div className="h-screen flex bg-gray-50">
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+
+      <main className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto p-8">
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+}
