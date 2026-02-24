@@ -1,6 +1,10 @@
 import React from "react";
 
-const GoalsWidget = () => {
+interface GoalsWidgetProps {
+  width: string | number;
+}
+
+const GoalsWidget = ({ width }: GoalsWidgetProps): React.ReactElement => {
   const goals = [
     {
       id: "goal_1",
@@ -24,7 +28,10 @@ const GoalsWidget = () => {
     },
   ];
   return (
-    <div className="goals-widget relative flex flex-col shadow-lg p-4 rounded-md bg-white w-1/4">
+    <div
+      style={{ width }}
+      className="goals-widget relative flex flex-col shadow-lg p-4 rounded-md bg-white"
+    >
       {/* Widget Title */}
       <h2 className="widget-title mt-auto relative text-lg font-serifDisplay mb-3">
         Goals

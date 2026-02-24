@@ -19,3 +19,9 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+.page-title {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 200;
+}

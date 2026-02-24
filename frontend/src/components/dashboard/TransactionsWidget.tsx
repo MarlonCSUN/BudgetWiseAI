@@ -1,6 +1,12 @@
 import React from "react";
 
-const TransactionsWidget = () => {
+interface TransactionsWidgetProps {
+  width: string | number;
+}
+
+const TransactionsWidget = ({
+  width,
+}: TransactionsWidgetProps): React.ReactElement => {
   const transactions = [
     {
       name: "Starbucks",
@@ -55,7 +61,10 @@ const TransactionsWidget = () => {
   ];
 
   return (
-    <div className="recent-transaction-widget relative flex flex-col shadow-lg p-4 rounded-md bg-white w-1/4">
+    <div
+      style={{ width }}
+      className="recent-transaction-widget relative flex flex-col shadow-lg p-4 rounded-md bg-white"
+    >
       {/* Widget Title */}
       <h2 className="widget-title mt-auto relative text-lg font-serifDisplay mb-3">
         Recent Activity
