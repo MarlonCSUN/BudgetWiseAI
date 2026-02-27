@@ -1,7 +1,7 @@
 export function applyTransactionFilters(transactions, filters) {
   const {
     search = "",
-    category = "all",
+    category = "All",
     minAmount,
     maxAmount,
     startDate,
@@ -21,7 +21,7 @@ export function applyTransactionFilters(transactions, filters) {
   }
 
   // 🏷 Category Filter
-  if (category !== "all") {
+  if (category !== "All") {
     filtered = filtered.filter((t) => t.category === category);
   }
 

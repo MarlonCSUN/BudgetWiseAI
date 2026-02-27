@@ -4,24 +4,48 @@ import React, { useState } from "react";
 import ReactCalendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-const DateInput = () => {
-  const [dateSelectOpen, onDateSelectOpen] = useState(false);
+interface DateInputProps {
+  onRangeChange: (range: [Date | null, Date | null]) => void;
+}
 
+const DateInput = ({ onRangeChange }: DateInputProps) => {
+  const [dateSelectOpen, setDateSelectOpen] = useState(false);
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ]);
+
+  const handleRangeChange = (value: unknown) => {
+    const range = value as [Date | null, Date | null];
+    setDateRange(range);
+    onRangeChange(range);
+    setDateSelectOpen(false);
+  };
   return (
     <>
-      <div className="date-range-container relative w-fit">
+      <div className="date-range-container relative">
         <div
           className="toggle-calendar flex gap-1 items-center text-sm border p-2 rounded-md cursor-pointer transition-all"
-          onClick={() => onDateSelectOpen(!dateSelectOpen)}
+          onClick={() => setDateSelectOpen(!dateSelectOpen)}
         >
           <Calendar className="w-4 h-4" />
-          <p>Select Date Range</p>
+          <p>
+            {dateRange[0] && dateRange[1]
+              ? `${dateRange[0].toLocaleDateString()} - ${dateRange[1].toLocaleDateString()}`
+              : "Select Date Range"}
+          </p>
         </div>
 
         <div
-          className={`absolute w-full min-w-[200px] ${dateSelectOpen ? "visible" : "hidden"} w-auto`}
+          className={`absolute w-full min-w-[300px] ${dateSelectOpen ? "visible" : "hidden"} w-auto`}
         >
-          <ReactCalendar className={"bg-white w-full"} />
+          <ReactCalendar
+            className="bg-white w-full"
+            selectRange={true}
+            maxDate={new Date()}
+            value={dateRange}
+            onChange={handleRangeChange}
+          />
         </div>
       </div>
     </>
