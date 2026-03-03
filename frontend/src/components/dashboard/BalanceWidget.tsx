@@ -1,9 +1,16 @@
 import React from "react";
 import BudgetPie from "./BudgetPie";
 
-const BalanceWidget = () => {
+interface BalanceWidgetProps {
+  width: string | number;
+}
+
+const BalanceWidget = ({ width }: BalanceWidgetProps): React.ReactElement => {
   return (
-    <div className="balance-budget-snapshot flex flex-col shadow-lg p-4 rounded-md bg-white w-3/4">
+    <div
+      style={{ width }}
+      className="balance-budget-snapshot flex flex-col shadow-lg p-4 rounded-md bg-white"
+    >
       {/* Widget Title */}
       <h2 className="widget-title relative text-lg font-serifDisplay mb-3">
         Balances

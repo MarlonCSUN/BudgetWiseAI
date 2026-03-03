@@ -87,18 +87,18 @@ const Dashboard: React.FC = () => {
       {/* Balances Budget Snapshot and Recent Transactions */}
       <div className="flex items-stretch gap-2 h-[310px] max-h-[315px]">
         {/* Balance Budget Widget */}
-        <BalanceWidget />
+        <BalanceWidget width={"75%"} />
         {/* Recent Transactions */}
-        <TransactionsWidget />
+        <TransactionsWidget width={"25%"} />
       </div>
 
       {/* AI Chat Widget & Goals List */}
       <div className="flex items-stretch gap-2 h-[310px] max-h-[315px]">
         {/* AI Chat Widget */}
-        <AIWidget />
+        <AIWidget width={"75%"} />
 
         {/* Goals */}
-        <GoalsWidget />
+        <GoalsWidget width={"25%"} />
       </div>
     </div>
   );

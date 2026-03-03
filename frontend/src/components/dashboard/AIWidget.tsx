@@ -1,8 +1,15 @@
 import React from "react";
 
-const AIWidget = () => {
+interface AIWidgetProps {
+  width: string | number;
+}
+
+const AIWidget = ({ width }: AIWidgetProps): React.ReactElement => {
   return (
-    <div className="ai-chat-widget flex flex-col shadow-lg p-4 rounded-md bg-white w-3/4">
+    <div
+      style={{ width }}
+      className="ai-chat-widget flex flex-col shadow-lg p-4 rounded-md bg-white"
+    >
       {/* Widget Title */}
       <h2 className="widget-title relative text-lg font-serifDisplay mb-3">
         AI Widget
