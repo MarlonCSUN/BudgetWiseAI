@@ -25,3 +25,7 @@
   line-height: 2.5rem;
   font-weight: 200;
 }
+
+.btn-primary {
+  @apply bg-emerald-600 text-white p-3 rounded-lg hover:bg-emerald-700 transition;
+}

@@ -94,7 +94,7 @@ export default function TransactionsPage() {
       {/* Filters */}
       <div className="bg-white shadow-sm rounded-lg p-4">
         <h3 className="font-serifBody font-semibold mb-3">Filters</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           <input
             type="text"
             placeholder="Search..."
@@ -229,7 +229,6 @@ export default function TransactionsPage() {
               >
                 ‹
               </button>
-
               {(() => {
                 const totalPages = Math.ceil(
                   filteredTransactions.length / transactionsPerPage,
@@ -255,8 +254,6 @@ export default function TransactionsPage() {
                   if (currentPage < totalPages - 2) pages.push("...");
                   pages.push(totalPages);
                 }
-
-                console.log(pages);
 
                 return pages.map((page, i) =>
                   page === "..." ? (

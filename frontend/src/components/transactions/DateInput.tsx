@@ -37,15 +37,23 @@ const DateInput = ({ onRangeChange }: DateInputProps) => {
         </div>
 
         <div
-          className={`absolute w-full min-w-[300px] ${dateSelectOpen ? "visible" : "hidden"} w-auto`}
+          className={`absolute w-full min-w-[300px] ${dateSelectOpen ? "visible" : "hidden"} w-auto shadow-lg p-2 bg-white`}
         >
           <ReactCalendar
-            className="bg-white w-full"
+            className="bg-white w-full p-1 border border-gray-300 rounded-md text-sm"
             selectRange={true}
             maxDate={new Date()}
             value={dateRange}
             onChange={handleRangeChange}
           />
+          {dateRange[0] && dateRange[1] && (
+            <button
+              className="mt-2 btn-primary w-full"
+              onClick={() => handleRangeChange([null, null])}
+            >
+              Reset Range
+            </button>
+          )}
         </div>
       </div>
     </>
