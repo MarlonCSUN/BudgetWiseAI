@@ -1,19 +1,15 @@
 export interface Goal {
   id: string;
-  user_id: string;
   name: string;
-  description: string | null;
-  target_amount: number;
-  current_amount: number;
-  remaining_amount: number;
-  percentage_completed: number;
-  target_date: string;
-  priority: 'low' | 'medium' | 'high';
-  is_completed: boolean;
-  monthly_deposit_needed: number;
-  days_remaining: number;
-  created_at: string;
-  updated_at: string;
+  description: string;
+  type: "savings" | "debt" | "investment";
+  targetAmount: number;
+  currentAmount: number;
+  startDate: string;
+  targetDate: string;
+  monthlyContribution: number;
+  status: "active" | "completed" | "paused";
+  priority: "high" | "medium" | "low";
 }
 
 export interface GoalCreate {
@@ -21,7 +17,7 @@ export interface GoalCreate {
   description?: string;
   target_amount: number;
   target_date: string;
-  priority?: 'low' | 'medium' | 'high';
+  priority?: "low" | "medium" | "high";
   initial_deposit?: number;
 }
 
@@ -30,7 +26,7 @@ export interface GoalUpdate {
   description?: string;
   target_amount?: number;
   target_date?: string;
-  priority?: 'low' | 'medium' | 'high';
+  priority?: "low" | "medium" | "high";
 }
 
 export interface GoalDeposit {
