@@ -2,13 +2,11 @@ export interface Goal {
   id: string;
   name: string;
   description: string;
-  type: "savings" | "debt" | "investment";
   targetAmount: number;
   currentAmount: number;
   startDate: string;
   targetDate: string;
   monthlyContribution: number;
-  status: "active" | "completed" | "paused";
   priority: "high" | "medium" | "low";
 }
 

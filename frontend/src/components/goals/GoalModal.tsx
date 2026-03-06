@@ -34,7 +34,12 @@ const GoalModal = ({
     targetAmount: goal.targetAmount,
     targetDate: goal.targetDate,
     priority: goal.priority,
+    monthlyContribution: goal.monthlyContribution,
+    currentAmount: goal.currentAmount,
+    startDate: goal.startDate,
   });
+
+  const [amount, setAmount] = useState(0);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,6 +51,46 @@ const GoalModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // api call to update goal with formData
+
+    // Verify if any changes were made
+    const mimicGoal = {
+      id: goal.id,
+      ...formData,
+    };
+
+    console.log("Mimic", mimicGoal);
+
+    console.log("Original", goal);
+
+    const hasChanges = Object.keys(formData).some(
+      (key) =>
+        formData[key as keyof typeof formData] !== goal[key as keyof Goal],
+    );
+
+    if (!hasChanges) {
+      console.log("No changes detected");
+      closeModal();
+      return;
+    }
+
+    console.log("Updated goal:", formData);
+    closeModal();
+  };
+
+  const handleContribute = () => {
+    // api call to contribute amount to goal
+    postMessage({
+      type: "contribute_goal",
+      data: { id: goal.id, amount: Number(amount) },
+    });
+    setAmount(0);
+  };
+
+  const handleDelete = () => {
+    // api call to delete goal
+    postMessage({ type: "delete_goal", data: goal.id });
+    closeModal();
   };
 
   const clampedProgress = Math.min(100, progress);
@@ -116,16 +161,13 @@ const GoalModal = ({
                 Monthly contribution
               </p>
               <p className="text-lg font-semibold">
-                {formatCurrency(goal.monthlyContribution)}
+                +{formatCurrency(goal.monthlyContribution)}
               </p>
             </div>
             <div className="bg-zinc-900 rounded-xl p-3.5">
               <p className="text-xs text-zinc-500 mb-0.5">Time remaining</p>
               <p className="text-lg font-semibold">
-                {monthsLeft}{" "}
-                <span className="text-sm font-normal text-zinc-400">
-                  months
-                </span>
+                {monthsLeft} <span className="text-sm font-normal">months</span>
               </p>
             </div>
             <div
@@ -144,6 +186,34 @@ const GoalModal = ({
                   : `${formatCurrency(Math.abs(projectedShortfall))} projected shortfall`}
               </p>
             </div>
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label className="text-xs font-medium text-zinc-500">
+              Update Amount
+            </label>
+
+            <div className="flex gap-2 relative">
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+                $
+              </span>
+              <input
+                type="number"
+                min="1"
+                step="0.01"
+                value={goal.currentAmount}
+                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                className="flex-1 border border-zinc-200 rounded-lg pl-4 py-1.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all placeholder:text-zinc-400"
+                placeholder={`Suggested: $${goal.monthlyContribution}`}
+              />
+            </div>
+            <button
+              onClick={handleContribute}
+              disabled={!amount || amount <= 0}
+              className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed p-0"
+            >
+              Update amount
+            </button>
           </div>
         </div>
 
@@ -219,17 +289,23 @@ const GoalModal = ({
                   />
                 </div>
               </div>
+
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
-                  Target Date
+                  Monthly Contribution
                 </label>
-                <input
-                  type="date"
-                  name="targetDate"
-                  value={formData.targetDate}
-                  onChange={handleChange}
-                  className="w-full border border-zinc-200 rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
-                />
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-zinc-400">
+                    $
+                  </span>
+                  <input
+                    type="number"
+                    name="monthlyContribution"
+                    value={formData.monthlyContribution}
+                    onChange={handleChange}
+                    className="w-full border border-zinc-200 rounded-lg pl-7 pr-3.5 py-2.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                  />
+                </div>
               </div>
             </div>
 
@@ -248,6 +324,34 @@ const GoalModal = ({
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
               </select>
+            </div>
+
+            {/* Start Date + Monthly Contribution */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  className="w-full border border-zinc-200 rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  Target Date
+                </label>
+                <input
+                  type="date"
+                  name="targetDate"
+                  value={formData.targetDate}
+                  onChange={handleChange}
+                  className="w-full border border-zinc-200 rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                />
+              </div>
             </div>
 
             {/* Actions */}

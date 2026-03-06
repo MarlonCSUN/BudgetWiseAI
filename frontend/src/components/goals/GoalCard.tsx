@@ -26,7 +26,6 @@ const GoalCard = ({
     <div
       key={goal.id}
       className="bg-white border border-zinc-100 shadow-sm rounded-xl p-5 flex flex-col gap-4 hover:shadow-md transition-shadow cursor-pointer"
-      onClick={() => setOpenModal(!openModal)}
     >
       {/* Top row */}
       <div className="flex items-start justify-between gap-3">
@@ -113,6 +112,11 @@ const GoalCard = ({
             : `${formatCurrency(Math.abs(projectedShortfall))} short`}
         </span>
       </div>
+
+      {/* Contribute */}
+      <button className="mt-2 btn-primary" onClick={() => setOpenModal(true)}>
+        Contribute
+      </button>
       {/* Modal */}
       {openModal && (
         <GoalModal
