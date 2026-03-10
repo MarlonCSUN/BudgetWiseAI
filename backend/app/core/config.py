@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     FIREBASE_SERVICE_ACCOUNT: str = "./firebase-service-account.json"
     FIREBASE_EMULATOR: bool = False
     
+    # NEW: AZURE AI Studio Agent
+    AZURE_AI_ENDPOINT: str = ""
+    AZURE_AI_KEY: str = ""
+    AZURE_AI_DEPLOYMENT: str = ""
+
+
     @property
     def cors_origins(self) -> List[str]:
         return [origin.strip() for origin in self.BACKEND_CORS_ORIGINS.split(',')]

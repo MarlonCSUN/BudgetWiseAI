@@ -2,12 +2,14 @@ export interface Goal {
   id: string;
   name: string;
   description: string;
-  targetAmount: number;
-  currentAmount: number;
-  startDate: string;
-  targetDate: string;
-  monthlyContribution: number;
+  target_amount: number;
+  current_amount: number;
+  target_date: string;
   priority: "high" | "medium" | "low";
+  is_completed: boolean;
+  percentage_complete: number;
+  days_remaining: number;
+  monthly_deposit_needed: number;
 }
 
 export interface GoalCreate {

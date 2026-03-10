@@ -273,19 +273,19 @@ const Dashboard: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                   <span style={{ color: '#d1fae5', fontSize: '12px', fontWeight: '500' }}>{g.name}</span>
                   <span style={{ color: '#4b7a64', fontSize: '12px' }}>
-                    {g.percentage_completed.toFixed(0)}%
+                    {(g.percentage_complete ?? 0).toFixed(0)}%
                   </span>
                 </div>
                 <div style={{ width: '100%', height: '5px', backgroundColor: '#0d1f15', borderRadius: '3px' }}>
                   <div style={{
                     height: '100%',
-                    width: `${Math.min(g.percentage_completed, 100)}%`,
+                    width: `${Math.min(g.percentage_complete ?? 0, 100)}%`,
                     backgroundColor: '#34d399',
                     borderRadius: '3px',
                   }} />
                 </div>
                 <p style={{ color: '#4b7a64', fontSize: '11px', margin: '4px 0 0 0' }}>
-                  ${g.current_amount.toFixed(0)} of ${g.target_amount.toFixed(0)} · {g.days_remaining}d left
+                  ${(g.current_amount ?? 0).toFixed(0)} of ${(g.target_amount ?? 0).toFixed(0)} · {g.days_remaining ?? 0}d left
                 </p>
               </div>
             ))

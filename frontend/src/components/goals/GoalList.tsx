@@ -1,5 +1,4 @@
 import { Goal } from "../../types/goal.types";
-import { Goal } from "../../types/goal.types";
 import React from "react";
 import GoalCard from "./GoalCard";
 

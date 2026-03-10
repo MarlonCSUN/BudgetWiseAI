@@ -36,7 +36,6 @@ const GoalModal = ({
     priority: goal.priority,
     monthlyContribution: goal.monthly_deposit_needed,
     currentAmount: goal.current_amount,
-    startDate: goal.created_at,
   });
 
   const [amount, setAmount] = useState(0);
@@ -335,7 +334,6 @@ const GoalModal = ({
                 <input
                   type="date"
                   name="startDate"
-                  value={formData.startDate}
                   onChange={handleChange}
                   className="w-full border border-zinc-200 rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
                 />

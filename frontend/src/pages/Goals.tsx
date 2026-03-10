@@ -381,7 +381,7 @@ const Goals: React.FC = () => {
                 <div style={{ textAlign: 'center' }}>
                   <p style={{ color: '#4b7a64', fontSize: '11px', margin: '0 0 2px 0' }}>Progress</p>
                   <p style={{ color: '#f0fdf4', fontSize: '20px', fontWeight: '700', margin: 0 }}>
-                    {g.percentage_completed.toFixed(0)}%
+                    {(g.percentage_complete ?? 0).toFixed(0)}%
                   </p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
@@ -396,7 +396,7 @@ const Goals: React.FC = () => {
               <div style={{ width: '100%', height: '6px', backgroundColor: '#0d1f15', borderRadius: '3px', marginBottom: '12px' }}>
                 <div style={{
                   height: '100%',
-                  width: `${Math.min(g.percentage_completed, 100)}%`,
+                  width: `${Math.min(g.percentage_complete, 100)}%`,
                   background: g.is_completed
                     ? 'linear-gradient(90deg, #059669, #34d399)'
                     : 'linear-gradient(90deg, #065f46, #34d399)',
