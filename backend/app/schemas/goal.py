@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 class GoalCreate(BaseModel):
@@ -12,9 +12,12 @@ class GoalCreate(BaseModel):
 
     @field_validator('priority')
     @classmethod
-    def validate_priority(cls, v: str) -> str:
-        if v not in ["Low", "Medium", "High"]:
-            raise ValueError("Priority must be 'Low', 'Medium', or 'High'.")
+    def validate_priority(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            normalized = v.lower()
+            if normalized not in ["low", "medium", "high"]:
+                raise ValueError("Priority must be 'low', 'medium', or 'high'.")
+            return normalized
         return v
     
     @field_validator('target_amount')
@@ -25,10 +28,12 @@ class GoalCreate(BaseModel):
         return v
     
     @field_validator('target_date')
-    @classmethod
-    def validate_date(cls, v: datetime) -> datetime:
-        if v <= datetime.utcnow():
-            raise ValueError("Target date must be in the future.")
+    def validate_date(cls, v):
+        now = datetime.now(timezone.utc)
+        if v.tzinfo is None:
+            v = v.replace(tzinfo=timezone.utc)
+        if v <= now:
+         raise ValueError('Target date must be in the future')
         return v
     
 class GoalUpdate(BaseModel):
@@ -41,9 +46,10 @@ class GoalUpdate(BaseModel):
     @field_validator('priority')
     @classmethod
     def validate_priority(cls, v: Optional[str]) -> Optional[str]:
-        if v is not None and v not in ["Low", "Medium", "High"]:
+        normalized = v.lower()
+        if normalized is not None and v not in ["Low", "Medium", "High"]:
             raise ValueError("Priority must be 'Low', 'Medium', or 'High'.")
-        return v
+        return normalized
         
     @field_validator('target_amount')
     @classmethod

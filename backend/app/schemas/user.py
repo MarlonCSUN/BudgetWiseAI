@@ -1,4 +1,5 @@
 from pydantic import BaseModel, field_validator
+from typing import Optional
 import re
 
 class UserSignup(BaseModel):
@@ -50,3 +51,8 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     email: str
+
+class UserUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[str] = None

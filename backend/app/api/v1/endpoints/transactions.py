@@ -1,13 +1,28 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import List, Optional
+from sqlalchemy.orm import Session
 from app.schemas.transaction import TransactionCreate, TransactionUpdate, TransactionResponse
 from app.services.transaction_service import TransactionService
 from app.services.bank_simulator_service import BankSimulatorService
-from app.storage.json_store import JSONStore
-from app.api.deps import get_db, get_current_user
+from app.core.database import get_db
+from app.api.deps import get_current_user
 from app.models.user import User
 
 router = APIRouter()
+
+def _txn_to_response(t) -> TransactionResponse:
+    return TransactionResponse(
+        id=t.id,
+        user_id=t.user_id,
+        account_id=t.account_id,
+        merchant=t.merchant,
+        category=t.category,
+        amount=t.amount,
+        transaction_type=t.transaction_type,
+        date=t.date.isoformat(),
+        description=t.description,
+        created_at=t.created_at.isoformat()
+    )
 
 @router.get("/", response_model=List[TransactionResponse])
 def get_transactions(
@@ -15,154 +30,78 @@ def get_transactions(
     transaction_type: Optional[str] = Query(None),
     limit: Optional[int] = Query(None),
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    transactions = transaction_service.get_user_transactions(
+    service = TransactionService(db)
+    transactions = service.get_user_transactions(
         user_id=current_user.id,
         category=category,
         transaction_type=transaction_type,
         limit=limit
     )
-    return [
-        TransactionResponse(
-            id=t.id,
-            user_id=t.user_id,
-            account_id=t.account_id,
-            merchant=t.merchant,
-            category=t.category,
-            transaction_type=t.transaction_type,
-            date=t.date.isoformat(),
-            description=t.description,
-            amount=t.amount,
-        )
-        for t in transactions
-    ]
+    return [_txn_to_response(t) for t in transactions]
 
 @router.get("/balance")
 def get_balance(
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    balance = transaction_service.get_balance(current_user.id)
-    return {"balance": balance}
+    service = TransactionService(db)
+    return {"balance": service.get_balance(current_user.id)}
 
-@router.get("/transaction_id", response_model=TransactionResponse)
+@router.get("/{transaction_id}", response_model=TransactionResponse)
 def get_transaction(
     transaction_id: str,
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    transaction = transaction_service.get_transaction_by_id(transaction_id, current_user.id)
-
+    service = TransactionService(db)
+    transaction = service.get_transaction_by_id(transaction_id, current_user.id)
     if not transaction:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Transaction not found"  
-        )
-    
-    return TransactionResponse(
-        id=transaction.id,
-        user_id=transaction.user_id,
-        account_id=transaction.account_id,
-        merchant=transaction.merchant,
-        category=transaction.category,
-        transaction_type=transaction.transaction_type,
-        date=transaction.date.isoformat(),
-        description=transaction.description,
-        amount=transaction.amount,
-        created_at=transaction.created_at.isoformat()
-    )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
+    return _txn_to_response(transaction)
 
 @router.post("/", response_model=TransactionResponse, status_code=status.HTTP_201_CREATED)
 def create_transaction(
     transaction_data: TransactionCreate,
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    new_transaction = transaction_service.create_transaction(
-        user_id=current_user.id,
-        transaction_data=transaction_data
-    )
-    return TransactionResponse(
-        id=new_transaction.id,
-        user_id=new_transaction.user_id,
-        account_id=new_transaction.account_id,
-        merchant=new_transaction.merchant,
-        category=new_transaction.category,
-        transaction_type=new_transaction.transaction_type,
-        date=new_transaction.date.isoformat(),
-        description=new_transaction.description,
-        amount=new_transaction.amount,
-        created_at=new_transaction.created_at.isoformat()
-    )
+    service = TransactionService(db)
+    transaction = service.create_transaction(current_user.id, transaction_data)
+    return _txn_to_response(transaction)
 
 @router.put("/{transaction_id}", response_model=TransactionResponse)
 def update_transaction(
     transaction_id: str,
     transaction_data: TransactionUpdate,
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    transaction = transaction_service.update_transaction(
-        transaction_id, 
-        current_user.id, 
-        transaction_data
-    )
-    
+    service = TransactionService(db)
+    transaction = service.update_transaction(transaction_id, current_user.id, transaction_data)
     if not transaction:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Transaction not found"
-        )
-    
-    return TransactionResponse(
-        id=transaction.id,
-        user_id=transaction.user_id,
-        account_id=transaction.account_id,
-        merchant=transaction.merchant,
-        category=transaction.category,
-        amount=transaction.amount,
-        transaction_type=transaction.transaction_type,
-        date=transaction.date.isoformat(),
-        description=transaction.description,
-        created_at=transaction.created_at.isoformat()
-    )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
+    return _txn_to_response(transaction)
 
 @router.delete("/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_transaction(
     transaction_id: str,
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    transaction_service = TransactionService(db)
-    success = transaction_service.delete_transaction(transaction_id, current_user.id)
-    
-    if not success:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Transaction not found"
-        )
-    
-    return None
+    service = TransactionService(db)
+    if not service.delete_transaction(transaction_id, current_user.id):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
 
 @router.post("/generate-sample", status_code=status.HTTP_201_CREATED)
 def generate_sample_transactions(
     count: int = Query(30, ge=1, le=100),
     current_user: User = Depends(get_current_user),
-    db: JSONStore = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
     simulator = BankSimulatorService()
-    transaction_service = TransactionService(db)
-    
+    service = TransactionService(db)
     transactions = simulator.generate_transactions(current_user.id, count)
-    created_count = transaction_service.bulk_create_transactions(transactions)
-    
-    return {
-        "message": f"Generated {created_count} sample transactions",
-        "count": created_count
-    }
+    created_count = service.bulk_create_transactions(transactions)
+    return {"message": f"Generated {created_count} sample transactions", "count": created_count}
