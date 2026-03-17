@@ -7,7 +7,7 @@ class GoalCreate(BaseModel):
     description: Optional[str] = None
     target_amount: float
     target_date: datetime
-    priority: str = "Medium"
+    priority: str = "medium"
     initial_deposit: Optional[float] = 0.0
 
     @field_validator('priority')
@@ -19,45 +19,49 @@ class GoalCreate(BaseModel):
                 raise ValueError("Priority must be 'low', 'medium', or 'high'.")
             return normalized
         return v
-    
+
     @field_validator('target_amount')
     @classmethod
     def validate_target_amount(cls, v: float) -> float:
         if v <= 0:
             raise ValueError("Target amount must be greater than zero.")
         return v
-    
+
     @field_validator('target_date')
     def validate_date(cls, v):
         now = datetime.now(timezone.utc)
         if v.tzinfo is None:
             v = v.replace(tzinfo=timezone.utc)
         if v <= now:
-         raise ValueError('Target date must be in the future')
+            raise ValueError('Target date must be in the future')
         return v
-    
+
+
 class GoalUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     target_amount: Optional[float] = None
     target_date: Optional[datetime] = None
     priority: Optional[str] = None
-        
+
     @field_validator('priority')
     @classmethod
     def validate_priority(cls, v: Optional[str]) -> Optional[str]:
-        normalized = v.lower()
-        if normalized is not None and v not in ["Low", "Medium", "High"]:
-            raise ValueError("Priority must be 'Low', 'Medium', or 'High'.")
-        return normalized
-        
+        if v is not None:
+            normalized = v.lower()
+            if normalized not in ["low", "medium", "high"]:
+                raise ValueError("Priority must be 'low', 'medium', or 'high'.")
+            return normalized
+        return v
+
     @field_validator('target_amount')
     @classmethod
     def validate_target_amount(cls, v: Optional[float]) -> Optional[float]:
         if v is not None and v <= 0:
             raise ValueError("Target amount must be greater than zero.")
         return v
-        
+
+
 class GoalDeposit(BaseModel):
     amount: float
 
@@ -67,9 +71,10 @@ class GoalDeposit(BaseModel):
         if v <= 0:
             raise ValueError("Deposit amount must be greater than zero.")
         return v
-        
+
+
 class GoalResponse(BaseModel):
-    id:str
+    id: str
     user_id: str
     name: str
     description: Optional[str] = None
