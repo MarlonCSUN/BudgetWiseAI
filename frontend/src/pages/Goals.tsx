@@ -411,8 +411,11 @@ const Goals: React.FC = () => {
                   <p style={{ color: '#4b7a64', fontSize: '11px', margin: 0 }}>
                     {g.is_completed
                       ? '🎉 Goal reached!'
-                      : `${g.days_remaining}d left · $${g.monthly_deposit_needed.toFixed(0)}/mo needed`
+                      : `${Math.max(0, Math.ceil((new Date(g.target_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))}d left · $${(g.monthly_deposit_needed ?? 0).toFixed(0)}/mo needed`
                     }
+                    <p style={{ color: '#2d4a38', fontSize: '11px', margin: '2px 0 0 0' }}>
+                    Target: {new Date(g.target_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </p>
                   </p>
                 </div>
                 {!g.is_completed && (

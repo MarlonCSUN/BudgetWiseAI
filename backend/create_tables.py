@@ -6,6 +6,7 @@ from app.models.budget import Budget
 from app.models.goal import Goal
 from app.models.reward import Reward 
 from app.models.linked_account import LinkedAccount
+from app.models.chat_message import ChatMessage
 
 def create_tables():
     print("Creating new tables only (won't affect existing)...")

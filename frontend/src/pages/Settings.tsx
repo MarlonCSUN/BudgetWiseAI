@@ -80,6 +80,17 @@ const Settings: React.FC = () => {
     }
   };
 
+  const handleDisconnect = async () => {
+    if (!window.confirm('Are you sure you want to disconnect your bank account?')) return;
+    try {
+      await api.delete('/bank/disconnect');
+      setLinkedAccounts([]);
+      setBankMessage('Bank account disconnected.');
+    } catch (e: any) {
+      setBankMessage(e.response?.data?.detail || 'Failed to disconnect');
+    }
+  };
+
   const isConnected = linkedAccounts.length > 0;
 
   return (
@@ -158,41 +169,38 @@ const Settings: React.FC = () => {
         </p>
 
         {/* Connected accounts */}
-        {isConnected && (
-          <div style={{ marginBottom: '20px' }}>
-            {linkedAccounts.map(account => (
-              <div key={account.id} style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '12px 16px', backgroundColor: '#071008',
-                border: '1px solid rgba(52,211,153,0.15)',
-                borderRadius: '8px', marginBottom: '8px',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{
-                    width: '32px', height: '32px', borderRadius: '8px',
-                    background: 'linear-gradient(135deg, #059669, #34d399)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '14px',
-                  }}>
-                    {account.account_type === 'checking' ? '🏦' : '💳'}
-                  </div>
-                  <div>
-                    <p style={{ color: '#f0fdf4', fontSize: '13px', fontWeight: '600', margin: 0, textTransform: 'capitalize' }}>
-                      {account.account_type} Account
-                    </p>
-                    <p style={{ color: '#4b7a64', fontSize: '11px', margin: '2px 0 0 0' }}>
-                      •••• {account.last4} · {account.last_synced
-                        ? `Last synced ${new Date(account.last_synced).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`
-                        : 'Never synced'}
-                    </p>
-                  </div>
-                </div>
-                <div style={{
-                  width: '8px', height: '8px', borderRadius: '50%',
-                  backgroundColor: '#34d399',
-                }} />
-              </div>
-            ))}
+        {!isConnected ? (
+          <button onClick={handleConnect} disabled={connecting} style={{
+            padding: '10px 24px',
+            background: 'linear-gradient(135deg, #059669, #34d399)',
+            color: '#fff', border: 'none', borderRadius: '8px',
+            cursor: connecting ? 'not-allowed' : 'pointer',
+            fontSize: '14px', fontWeight: '600',
+            opacity: connecting ? 0.7 : 1,
+          }}>
+            {connecting ? 'Connecting...' : '🏦 Connect Bank'}
+          </button>
+        ) : (
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button onClick={handleSync} disabled={syncing} style={{
+              padding: '10px 24px',
+              background: 'linear-gradient(135deg, #059669, #34d399)',
+              color: '#fff', border: 'none', borderRadius: '8px',
+              cursor: syncing ? 'not-allowed' : 'pointer',
+              fontSize: '14px', fontWeight: '600',
+              opacity: syncing ? 0.7 : 1,
+            }}>
+              {syncing ? 'Syncing...' : '⟳ Sync Transactions'}
+            </button>
+            <button onClick={handleDisconnect} style={{
+              padding: '10px 24px',
+              backgroundColor: 'transparent',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: '8px', color: '#f87171',
+              fontSize: '14px', fontWeight: '600', cursor: 'pointer',
+            }}>
+              Disconnect
+            </button>
           </div>
         )}
 
@@ -208,32 +216,6 @@ const Settings: React.FC = () => {
             {bankMessage}
           </div>
         )}
-
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {!isConnected ? (
-            <button onClick={handleConnect} disabled={connecting} style={{
-              padding: '10px 24px',
-              background: 'linear-gradient(135deg, #059669, #34d399)',
-              color: '#fff', border: 'none', borderRadius: '8px',
-              cursor: connecting ? 'not-allowed' : 'pointer',
-              fontSize: '14px', fontWeight: '600',
-              opacity: connecting ? 0.7 : 1,
-            }}>
-              {connecting ? 'Connecting...' : '🏦 Connect Bank'}
-            </button>
-          ) : (
-            <button onClick={handleSync} disabled={syncing} style={{
-              padding: '10px 24px',
-              background: 'linear-gradient(135deg, #059669, #34d399)',
-              color: '#fff', border: 'none', borderRadius: '8px',
-              cursor: syncing ? 'not-allowed' : 'pointer',
-              fontSize: '14px', fontWeight: '600',
-              opacity: syncing ? 0.7 : 1,
-            }}>
-              {syncing ? 'Syncing...' : '⟳ Sync Transactions'}
-            </button>
-          )}
-        </div>
       </div>
 
       {/* Preferences */}

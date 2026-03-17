@@ -285,7 +285,7 @@ const Dashboard: React.FC = () => {
                   }} />
                 </div>
                 <p style={{ color: '#4b7a64', fontSize: '11px', margin: '4px 0 0 0' }}>
-                  ${(g.current_amount ?? 0).toFixed(0)} of ${(g.target_amount ?? 0).toFixed(0)} · {g.days_remaining ?? 0}d left
+                  ${(g.current_amount ?? 0).toFixed(0)} of ${(g.target_amount ?? 0).toFixed(0)} · {Math.max(0, Math.ceil((new Date(g.target_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))}d left
                 </p>
               </div>
             ))

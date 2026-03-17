@@ -82,3 +82,9 @@ def get_linked_accounts(
         }
         for a in accounts
     ]
+
+@router.delete("/disconnect")
+def disconnect_bank(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    db.query(LinkedAccount).filter(LinkedAccount.user_id == current_user.id).delete()
+    db.commit()
+    return {"message": "Bank disconnected"}
