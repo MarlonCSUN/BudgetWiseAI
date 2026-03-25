@@ -1,9 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import api from '../services/api'; 
-import transactionService, { Transaction } from '../services/transaction.service';
-import { useNotifications } from '../context/NotificationContext';
-
-const CATEGORIES = ['All', 'Shopping', 'Food', 'Utilities', 'Entertainment', 'Transportation', 'Healthcare', 'Education', 'Income', 'Other'];
 import React, { useState, useEffect, useMemo } from "react";
 import api from "../services/api";
 import transactionService, {
@@ -12,18 +6,7 @@ import transactionService, {
 import DateInput from "components/transactions/DateInput";
 import { applyTransactionFilters } from "utils/transactionFilters";
 
-const CATEGORIES = [
-  "All",
-  "Shopping",
-  "Food",
-  "Utilities",
-  "Entertainment",
-  "Transportation",
-  "Healthcare",
-  "Education",
-  "Income",
-  "Other",
-];
+const CATEGORIES = ['All', 'Shopping', 'Food', 'Utilities', 'Entertainment', 'Transportation', 'Healthcare', 'Education', 'Income', 'Other'];
 
 const CATEGORY_COLORS: Record<string, string> = {
   Shopping: "#6366f1",
