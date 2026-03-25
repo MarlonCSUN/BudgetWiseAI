@@ -7,6 +7,7 @@ import goalService from '../services/goal.service';
 import { Budget } from '../types/budget.types';
 import { Goal } from '../types/goal.types';
 import api from '../services/api';
+import { useNotifications } from '../context/NotificationContext';
 
 const CATEGORY_COLORS: Record<string, string> = {
   Shopping: '#6366f1',
@@ -32,8 +33,6 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchAll();
-    // Auto Sync in background
-    api.post('/bank/sync').catch(() => {});
   }, []);
 
   const fetchAll = async () => {
@@ -56,7 +55,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Calculate top 3 spending categories from all transactions
   const getTopCategories = () => {
     const allTxns = transactions.filter(t => t.transaction_type === 'expense');
     const categoryTotals: Record<string, number> = {};
@@ -80,7 +78,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ color: '#f0fdf4', fontSize: '26px', fontWeight: '700', margin: 0, letterSpacing: '-0.5px' }}>
           Good {getTimeOfDay()}, {user?.first_name} 👋
@@ -92,8 +89,6 @@ const Dashboard: React.FC = () => {
 
       {/* Top row — Balance + Monthly Budget */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-
-        {/* Balance */}
         <div style={cardStyle}>
           <p style={labelStyle}>Total Balance</p>
           <p style={{
@@ -108,7 +103,6 @@ const Dashboard: React.FC = () => {
           </p>
         </div>
 
-        {/* Monthly budget overview */}
         <div style={cardStyle}>
           <p style={labelStyle}>Monthly Budget</p>
           <p style={{
@@ -137,8 +131,6 @@ const Dashboard: React.FC = () => {
 
       {/* Second row — Top Categories + Recent Transactions */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-
-        {/* Top spending categories */}
         <div style={cardStyle}>
           <div style={cardHeaderStyle}>
             <p style={labelStyle}>Top Spending</p>
@@ -178,7 +170,6 @@ const Dashboard: React.FC = () => {
           )}
         </div>
 
-        {/* Recent transactions */}
         <div style={cardStyle}>
           <div style={cardHeaderStyle}>
             <p style={labelStyle}>Recent Transactions</p>
@@ -215,8 +206,6 @@ const Dashboard: React.FC = () => {
 
       {/* Third row — Budgets + Goals */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-
-        {/* Budget progress */}
         <div style={cardStyle}>
           <div style={cardHeaderStyle}>
             <p style={labelStyle}>Budget Progress</p>
@@ -225,19 +214,14 @@ const Dashboard: React.FC = () => {
           {budgets.length === 0 ? (
             <div style={{ marginTop: '16px' }}>
               <p style={{ color: '#4b7a64', fontSize: '13px', marginBottom: '12px' }}>No budgets created yet</p>
-              <button onClick={() => navigate('/budgets')} style={actionButtonStyle}>
-                Create Budget
-              </button>
+              <button onClick={() => navigate('/budgets')} style={actionButtonStyle}>Create Budget</button>
             </div>
           ) : (
             budgets.slice(0, 4).map(b => (
               <div key={b.id} style={{ marginTop: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                   <span style={{ color: '#d1fae5', fontSize: '12px' }}>{b.category}</span>
-                  <span style={{
-                    color: b.is_over_budget ? '#f87171' : '#4b7a64',
-                    fontSize: '12px',
-                  }}>
+                  <span style={{ color: b.is_over_budget ? '#f87171' : '#4b7a64', fontSize: '12px' }}>
                     ${b.spent.toFixed(0)} / ${b.limit.toFixed(0)}
                   </span>
                 </div>
@@ -254,7 +238,6 @@ const Dashboard: React.FC = () => {
           )}
         </div>
 
-        {/* Goals */}
         <div style={cardStyle}>
           <div style={cardHeaderStyle}>
             <p style={labelStyle}>Savings Goals</p>
@@ -263,9 +246,7 @@ const Dashboard: React.FC = () => {
           {goals.length === 0 ? (
             <div style={{ marginTop: '16px' }}>
               <p style={{ color: '#4b7a64', fontSize: '13px', marginBottom: '12px' }}>No goals created yet</p>
-              <button onClick={() => navigate('/goals')} style={actionButtonStyle}>
-                Create Goal
-              </button>
+              <button onClick={() => navigate('/goals')} style={actionButtonStyle}>Create Goal</button>
             </div>
           ) : (
             goals.slice(0, 3).map(g => (
@@ -296,7 +277,6 @@ const Dashboard: React.FC = () => {
   );
 };
 
-// Shared styles
 const cardStyle: React.CSSProperties = {
   backgroundColor: '#0c1a0f',
   borderRadius: '12px',

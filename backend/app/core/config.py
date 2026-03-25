@@ -25,6 +25,11 @@ class Settings(BaseSettings):
     AZURE_AI_KEY: str = ""
     AZURE_AI_DEPLOYMENT: str = ""
 
+    # NEW: SendGrid settings
+    SENDGRID_API_KEY: str = ""
+    SENDGRID_FROM_EMAIL: str = ""
+    SENDGRID_FROM_NAME: str = "BudgetWise"
+
 
     @property
     def cors_origins(self) -> List[str]:

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api'; 
 import transactionService, { Transaction } from '../services/transaction.service';
+import { useNotifications } from '../context/NotificationContext';
 
 const CATEGORIES = ['All', 'Shopping', 'Food', 'Utilities', 'Entertainment', 'Transportation', 'Healthcare', 'Education', 'Income', 'Other'];
 
@@ -24,12 +25,9 @@ const Activity: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     fetchTransactions();
-    // Auto Sync in background
-    api.post('/bank/sync').catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -59,18 +57,6 @@ const Activity: React.FC = () => {
     setFiltered(result);
   };
 
-  const handleSync = async () => {
-    setSyncing(true);
-    try {
-      await api.post('/bank/sync');
-      await fetchTransactions();
-   } catch (e: any) {
-      setError(e.response?.data?.detail || 'Sync failed — make sure your bank is connected');
-    } finally {
-     setSyncing(false);
-   }
-  };
-
   const totalIncome = filtered.filter(t => t.transaction_type === 'income').reduce((sum, t) => sum + t.amount, 0);
   const totalExpenses = filtered.filter(t => t.transaction_type === 'expense').reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
@@ -82,7 +68,6 @@ const Activity: React.FC = () => {
 
   return (
     <div>
-      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '32px' }}>
         <div>
           <h1 style={{ color: '#fff', fontSize: '28px', fontWeight: '700', margin: 0, letterSpacing: '-0.5px' }}>
@@ -92,7 +77,8 @@ const Activity: React.FC = () => {
             {filtered.length} transactions
           </p>
         </div>
-</div>
+      </div>
+
       {error && (
         <div style={{ backgroundColor: 'rgba(239,68,68,0.1)', color: '#ef4444', padding: '12px 16px', borderRadius: '8px', marginBottom: '24px' }}>
           {error}
@@ -207,7 +193,6 @@ const Activity: React.FC = () => {
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
-              {/* Category dot */}
               <div style={{
                 width: '40px', height: '40px',
                 borderRadius: '10px',
@@ -222,8 +207,6 @@ const Activity: React.FC = () => {
                   backgroundColor: CATEGORY_COLORS[txn.category] || '#6b7280',
                 }} />
               </div>
-
-              {/* Merchant + category */}
               <div style={{ flex: 1 }}>
                 <p style={{ color: '#fff', fontSize: '14px', fontWeight: '500', margin: 0 }}>
                   {txn.merchant}
@@ -232,8 +215,6 @@ const Activity: React.FC = () => {
                   {txn.category} · {new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </p>
               </div>
-
-              {/* Amount */}
               <span style={{
                 fontSize: '15px',
                 fontWeight: '600',

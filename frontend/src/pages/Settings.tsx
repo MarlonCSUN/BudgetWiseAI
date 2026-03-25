@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 import api from '../services/api';
 
 interface LinkedAccount {
@@ -10,8 +11,33 @@ interface LinkedAccount {
   is_active: boolean;
 }
 
+const Toggle: React.FC<{ value: boolean; onChange: (v: boolean) => void }> = ({ value, onChange }) => (
+  <div
+    onClick={() => onChange(!value)}
+    style={{
+      width: '40px', height: '22px',
+      backgroundColor: value ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.08)',
+      borderRadius: '11px',
+      border: `1px solid ${value ? 'rgba(52,211,153,0.5)' : 'rgba(255,255,255,0.1)'}`,
+      cursor: 'pointer', position: 'relative',
+      transition: 'all 0.2s ease',
+    }}
+  >
+    <div style={{
+      width: '16px', height: '16px',
+      backgroundColor: value ? '#34d399' : '#4b7a64',
+      borderRadius: '50%',
+      position: 'absolute',
+      top: '2px',
+      left: value ? '20px' : '2px',
+      transition: 'all 0.2s ease',
+    }} />
+  </div>
+);
+
 const Settings: React.FC = () => {
   const { user, setUser } = useAuth();
+  const { addToast } = useNotifications();
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -19,6 +45,7 @@ const Settings: React.FC = () => {
   const [syncing, setSyncing] = useState(false);
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
   const [bankMessage, setBankMessage] = useState('');
+  const [notifPrefs, setNotifPrefs] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState({
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
@@ -27,6 +54,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     fetchLinkedAccounts();
+    fetchNotifPrefs();
   }, []);
 
   const fetchLinkedAccounts = async () => {
@@ -34,8 +62,22 @@ const Settings: React.FC = () => {
       const response = await api.get('/bank/accounts');
       setLinkedAccounts(response.data);
     } catch {
-      // No accounts yet, that's fine
+      // No accounts yet
     }
+  };
+
+  const fetchNotifPrefs = async () => {
+    try {
+      const res = await api.get('/notifications/preferences');
+      setNotifPrefs(res.data);
+    } catch {}
+  };
+
+  const handleNotifChange = async (key: string, value: boolean) => {
+    setNotifPrefs(prev => ({ ...prev, [key]: value }));
+    try {
+      await api.put('/notifications/preferences', { [key]: value });
+    } catch {}
   };
 
   const handleSave = async () => {
@@ -73,6 +115,9 @@ const Settings: React.FC = () => {
     try {
       const response = await api.post('/bank/sync');
       setBankMessage(`✓ Synced ${response.data.synced} new transactions`);
+      if (response.data.toasts) {
+        response.data.toasts.forEach((t: any) => addToast(t));
+      }
     } catch (e: any) {
       setBankMessage(e.response?.data?.detail || 'Sync failed');
     } finally {
@@ -90,6 +135,7 @@ const Settings: React.FC = () => {
       setBankMessage(e.response?.data?.detail || 'Failed to disconnect');
     }
   };
+
 
   const isConnected = linkedAccounts.length > 0;
 
@@ -116,37 +162,21 @@ const Settings: React.FC = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
           <div>
             <label style={labelStyle}>First Name</label>
-            <input
-              value={form.first_name}
-              onChange={e => setForm(f => ({ ...f, first_name: e.target.value }))}
-              style={inputStyle}
-            />
+            <input value={form.first_name} onChange={e => setForm(f => ({ ...f, first_name: e.target.value }))} style={inputStyle} />
           </div>
           <div>
             <label style={labelStyle}>Last Name</label>
-            <input
-              value={form.last_name}
-              onChange={e => setForm(f => ({ ...f, last_name: e.target.value }))}
-              style={inputStyle}
-            />
+            <input value={form.last_name} onChange={e => setForm(f => ({ ...f, last_name: e.target.value }))} style={inputStyle} />
           </div>
         </div>
         <div style={{ marginBottom: '16px' }}>
           <label style={labelStyle}>Username</label>
-          <input
-            value={user?.username || ''}
-            disabled
-            style={{ ...inputStyle, opacity: 0.5, cursor: 'not-allowed' }}
-          />
+          <input value={user?.username || ''} disabled style={{ ...inputStyle, opacity: 0.5, cursor: 'not-allowed' }} />
           <p style={{ color: '#2d4a38', fontSize: '11px', margin: '4px 0 0 0' }}>Username cannot be changed</p>
         </div>
         <div style={{ marginBottom: '20px' }}>
           <label style={labelStyle}>Email</label>
-          <input
-            value={form.email}
-            onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-            style={inputStyle}
-          />
+          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={inputStyle} />
         </div>
         <button onClick={handleSave} disabled={submitting} style={{
           padding: '10px 24px',
@@ -168,7 +198,6 @@ const Settings: React.FC = () => {
           Connect your Freedom Bank account to automatically import transactions.
         </p>
 
-        {/* Connected accounts */}
         {!isConnected ? (
           <button onClick={handleConnect} disabled={connecting} style={{
             padding: '10px 24px',
@@ -181,7 +210,7 @@ const Settings: React.FC = () => {
             {connecting ? 'Connecting...' : '🏦 Connect Bank'}
           </button>
         ) : (
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <button onClick={handleSync} disabled={syncing} style={{
               padding: '10px 24px',
               background: 'linear-gradient(135deg, #059669, #34d399)',
@@ -204,52 +233,54 @@ const Settings: React.FC = () => {
           </div>
         )}
 
-        {/* Bank message */}
         {bankMessage && (
           <div style={{
-            backgroundColor: bankMessage.startsWith('✓')
-              ? 'rgba(52,211,153,0.1)' : 'rgba(239,68,68,0.1)',
+            backgroundColor: bankMessage.startsWith('✓') ? 'rgba(52,211,153,0.1)' : 'rgba(239,68,68,0.1)',
             color: bankMessage.startsWith('✓') ? '#34d399' : '#f87171',
             padding: '10px 14px', borderRadius: '8px',
-            fontSize: '13px', marginBottom: '16px',
+            fontSize: '13px', marginTop: '16px',
           }}>
             {bankMessage}
           </div>
         )}
       </div>
 
-      {/* Preferences */}
+      {/* Notification Preferences */}
       <div style={sectionStyle}>
-        <h2 style={sectionTitleStyle}>Preferences</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {[
-            { label: 'Email notifications', description: 'Get notified when you exceed a budget' },
-            { label: 'Weekly summary',       description: 'Receive a weekly spending report' },
-            { label: 'Goal reminders',       description: 'Reminders to make goal deposits' },
-          ].map(pref => (
-            <div key={pref.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ color: '#d1fae5', fontSize: '14px', margin: 0, fontWeight: '500' }}>{pref.label}</p>
-                <p style={{ color: '#4b7a64', fontSize: '12px', margin: '2px 0 0 0' }}>{pref.description}</p>
-              </div>
-              <div style={{
-                width: '44px', height: '24px',
-                backgroundColor: 'rgba(52,211,153,0.15)',
-                borderRadius: '12px', border: '1px solid rgba(52,211,153,0.2)',
-                cursor: 'not-allowed', opacity: 0.5,
-                display: 'flex', alignItems: 'center', padding: '2px',
-              }}>
-                <div style={{ width: '18px', height: '18px', backgroundColor: '#4b7a64', borderRadius: '50%' }} />
-              </div>
-            </div>
-          ))}
-        </div>
-        <p style={{ color: '#2d4a38', fontSize: '12px', margin: '16px 0 0 0' }}>
-          Notification settings will be enabled in a future update
+        <h2 style={sectionTitleStyle}>Notification Preferences</h2>
+        <p style={{ color: '#4b7a64', fontSize: '13px', margin: '0 0 20px 0' }}>
+          Choose how you want to be notified for each event.
         </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 80px', gap: '8px', marginBottom: '12px', paddingBottom: '10px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+          <span style={{ color: '#4b7a64', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Event</span>
+          <span style={{ color: '#4b7a64', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.8px', textAlign: 'center' }}>In-App</span>
+          <span style={{ color: '#4b7a64', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.8px', textAlign: 'center' }}>Email</span>
+        </div>
+
+        {[
+          { label: 'Budget exceeded', desc: 'When you go over a budget limit', toast: 'toast_budget_exceeded', email: 'email_budget_exceeded' },
+          { label: 'Goal completed', desc: 'When you reach a savings goal', toast: 'toast_goal_completed', email: 'email_goal_completed' },
+          { label: 'Transactions synced', desc: 'When new transactions are imported', toast: 'toast_transactions_synced', email: 'email_transactions_synced' },
+          { label: 'Goal reminders', desc: 'Reminders to make goal deposits', toast: 'toast_goal_reminder', email: 'email_goal_reminder' },
+          { label: 'Weekly summary', desc: 'Your weekly spending report', toast: 'toast_weekly_summary', email: 'email_weekly_summary' },
+        ].map(pref => (
+          <div key={pref.label} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 80px', gap: '8px', alignItems: 'center', marginBottom: '16px' }}>
+            <div>
+              <p style={{ color: '#d1fae5', fontSize: '13px', margin: 0, fontWeight: '500' }}>{pref.label}</p>
+              <p style={{ color: '#4b7a64', fontSize: '11px', margin: '2px 0 0 0' }}>{pref.desc}</p>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Toggle value={notifPrefs[pref.toast] ?? true} onChange={val => handleNotifChange(pref.toast, val)} />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Toggle value={notifPrefs[pref.email] ?? true} onChange={val => handleNotifChange(pref.email, val)} />
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Danger zone */}
+      {/* Danger Zone */}
       <div style={{ ...sectionStyle, border: '1px solid rgba(239,68,68,0.15)' }}>
         <h2 style={{ ...sectionTitleStyle, color: '#f87171' }}>Danger Zone</h2>
         <p style={{ color: '#4b7a64', fontSize: '13px', margin: '0 0 16px 0' }}>

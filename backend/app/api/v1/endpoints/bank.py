@@ -34,17 +34,35 @@ def connect_bank(
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/sync")
-def sync_transactions(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Pull latest transactions from Freedom Bank into MySQL."""
-    try:
-        sync_service = SyncService(db)
-        result = sync_service.sync_transactions(current_user.id)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+def sync(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    result = SyncService(db).sync_transactions(current_user.id)
+    toasts = []
+
+    # Notify transactions synced
+    if result["synced"] > 0:
+        from app.services.notification_service import notify_transactions_synced
+        toast = notify_transactions_synced(
+            current_user.id, current_user.email,
+            current_user.first_name, result["synced"], db
+        )
+        if toast:
+            toasts.append(toast)
+
+    # Check for exceeded budgets
+    from app.services.budget_service import BudgetService
+    from app.services.notification_service import notify_budget_exceeded
+    budgets = BudgetService(db).get_user_budgets(current_user.id)
+    for b in budgets:
+        if b.spent > b.limit:
+            toast = notify_budget_exceeded(
+                current_user.id, current_user.email,
+                current_user.first_name, b.category,
+                b.spent, b.limit, db
+            )
+            if toast:
+                toasts.append(toast)
+
+    return {**result, "toasts": toasts}
 
 @router.get("/tick")
 def tick(
@@ -52,11 +70,36 @@ def tick(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Manually generate a Freedom Bank transaction (5/day cap)."""
     try:
         sync_service = SyncService(db)
         result = sync_service.tick(current_user.id, account_type)
-        return result
+
+        # After tick auto-syncs, check for notifications
+        toasts = []
+        from app.services.notification_service import notify_transactions_synced, notify_budget_exceeded
+        from app.services.budget_service import BudgetService
+
+        synced = result.get("synced", 0) if isinstance(result, dict) else 0
+        if synced > 0:
+            toast = notify_transactions_synced(
+                current_user.id, current_user.email,
+                current_user.first_name, synced, db
+            )
+            if toast:
+                toasts.append(toast)
+
+        budgets = BudgetService(db).get_user_budgets(current_user.id)
+        for b in budgets:
+            if b.spent > b.limit:
+                toast = notify_budget_exceeded(
+                    current_user.id, current_user.email,
+                    current_user.first_name, b.category,
+                    b.spent, b.limit, db
+                )
+                if toast:
+                    toasts.append(toast)
+
+        return {**result, "toasts": toasts} if isinstance(result, dict) else {"result": result, "toasts": toasts}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:

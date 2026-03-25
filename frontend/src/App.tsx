@@ -2,12 +2,17 @@ import React from "react";
 import { AuthProvider } from "./context/AuthContext";
 import AppRoutes from "./routes";
 import "./styles/globals.css";
+import { NotificationProvider } from './context/NotificationContext';
+import ToastContainer from './components/layout/ToastContainer';
 
 function App() {
   return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <AppRoutes />
+        <ToastContainer />
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
 

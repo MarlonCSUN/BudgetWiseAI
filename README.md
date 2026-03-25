@@ -37,9 +37,6 @@ BudgetWise is a modern, full-stack personal finance management application desig
   - Recent transaction history
   - Budget and goal progress tracking
 
-Here's the README in a code block for easy copy-paste:
-markdown# 💰 BudgetWise - Smart Personal Finance Tracker
-
 <div align="center">
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -104,15 +101,9 @@ BudgetWise is a modern, full-stack personal finance management application desig
 
 ---
 
-## 🎥 Demo
-
 ### Screenshots
 
 > **Note:** Add screenshots here once UI is complete
-
-### Live Demo
-
-> **Coming Soon:** We'll deploy a live demo once core features are complete
 
 ---
 
