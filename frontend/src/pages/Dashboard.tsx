@@ -58,7 +58,7 @@ const SectionHeader: React.FC<{
   onLink?: () => void;
 }> = ({ label, linkLabel, onLink }) => (
   <div className="flex justify-between items-center mb-1 w-full">
-    <p className="text-[#4b7a64] text-xs font-semibold uppercase tracking-widest m-0">
+    <p className="text-[#4b7a64] text-sm font-semibold uppercase tracking-widest m-0">
       {label}
     </p>
     {linkLabel && onLink && (
