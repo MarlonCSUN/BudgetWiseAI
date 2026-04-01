@@ -103,4 +103,20 @@ def make_deposit(
     goal = GoalService(db).make_deposit(goal_id, current_user.id, deposit)
     if not goal:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Goal not found")
+
+    # Notify if goal is now completed
+    if goal.is_completed:
+        try:
+            from app.services.notification_service import notify_goal_completed
+            notify_goal_completed(
+                user_id=current_user.id,
+                user_email=current_user.email,
+                user_name=current_user.first_name,
+                goal_name=goal.name,
+                target_amount=goal.target_amount,
+                db=db,
+            )
+        except Exception as e:
+            print(f"Goal completion notification error: {e}")
+
     return _goal_to_response(goal, db)

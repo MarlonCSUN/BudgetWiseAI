@@ -16,14 +16,14 @@ class UserSignup(BaseModel):
         if not re.match(email_regex, v):
             raise ValueError('Invalid email format')
         return v
-    
+
     @field_validator('username')
-    @classmethod 
+    @classmethod
     def username_must_be_valid(cls, v: str) -> str:
         if not re.match(r'^[a-zA-Z0-9_]{3,30}$', v):
             raise ValueError('Username must be 3-30 characters long and contain only letters, numbers, and underscores')
         return v
-    
+
     @field_validator('password')
     @classmethod
     def password_strength(cls, v: str) -> str:
@@ -51,8 +51,12 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     email: str
+    avatar_color: Optional[str] = "#059669"
+    created_at: Optional[str] = None
+
 
 class UserUpdate(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     email: Optional[str] = None
+    avatar_color: Optional[str] = None

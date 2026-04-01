@@ -1,13 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 from app.schemas.user import UserSignup, UserLogin, UserResponse, UserUpdate
 from app.schemas.token import Token
 from app.services.auth_service import AuthService
 from app.core.database import get_db
 from app.api.deps import get_current_user
 from app.models.user import User
+from app.core.security import verify_password, get_password_hash
 
 router = APIRouter()
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str
+
+class AccountDelete(BaseModel):
+    confirmation: str
 
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def signup(user_data: UserSignup, db: Session = Depends(get_db)):
@@ -67,3 +76,47 @@ def update_current_user(
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.put("/me/password")
+def change_password(
+    data: PasswordChange,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if not verify_password(data.current_password, current_user.hashed_password):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+    if len(data.new_password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    current_user.hashed_password = get_password_hash(data.new_password)
+    db.commit()
+    return {"message": "Password updated successfully"}
+
+@router.delete("/me")
+def delete_account(
+    data: AccountDelete,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if data.confirmation != "confirm deletion":
+        raise HTTPException(status_code=400, detail="Type 'confirm deletion' to confirm")
+
+    from app.models.transaction import Transaction
+    from app.models.budget import Budget
+    from app.models.goal import Goal
+    from app.models.linked_account import LinkedAccount
+    from app.models.reward import Reward
+    from app.models.chat_message import ChatMessage
+    from app.models.notification_preference import NotificationPreference
+
+    db.query(Transaction).filter(Transaction.user_id == current_user.id).delete()
+    db.query(Budget).filter(Budget.user_id == current_user.id).delete()
+    db.query(Goal).filter(Goal.user_id == current_user.id).delete()
+    db.query(LinkedAccount).filter(LinkedAccount.user_id == current_user.id).delete()
+    db.query(Reward).filter(Reward.user_id == current_user.id).delete()
+    db.query(ChatMessage).filter(ChatMessage.user_id == current_user.id).delete()
+    db.query(NotificationPreference).filter(
+        NotificationPreference.user_id == current_user.id
+    ).delete()
+    db.delete(current_user)
+    db.commit()
+    return {"message": "Account deleted"}
