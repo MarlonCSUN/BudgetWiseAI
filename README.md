@@ -1,324 +1,309 @@
 # 💰 BudgetWise - Smart Personal Finance Tracker
 
 ## 📖 About
-
-BudgetWise is a modern, full-stack personal finance management application designed to help users track their spending, create budgets, set financial goals, and receive AI-powered financial insights. Built as an educational project, it demonstrates best practices in web development, API design, and user experience.
-
+ 
+BudgetWise is a full-stack personal finance management application built for college students. It connects to a simulated bank (Freedom Bank), automatically syncs transactions, tracks budgets and savings goals, and provides an AI financial advisor powered by Azure AI. Built as a senior capstone project, it demonstrates production-grade web development practices across the full stack.
+ 
 ### Why BudgetWise?
-
-- **🎯 Smart Budgeting**: Set category-based budgets and track spending in real-time
-- **📊 Transaction Tracking**: Monitor all your income and expenses in one place
-- **🎯 Goal Setting**: Create savings goals and track your progress
-- **🤖 AI Insights**: Get personalized financial recommendations (coming soon)
-- **🔒 Secure**: JWT-based authentication with encrypted password storage
-- **🎨 Modern UI**: Clean, intuitive interface with responsive design
-- **📱 No Bank Connection Required**: Perfect for learning and demonstration purposes
-
+ 
+- 🏦 **Real Bank Integration** — Connects to Freedom Bank (Firebase emulator) to automatically import transactions
+- 🤖 **AI Financial Advisor** — Powered by Azure AI Foundry; answers questions, creates goals, and analyzes spending
+- 📊 **Smart Budgeting** — Set category-based budgets with real-time progress tracking and over-budget alerts
+- 🎯 **Savings Goals** — Create, deposit toward, and track goals; AI can create goals from conversation
+- 🏆 **Rewards System** — Earn badges and XP for financial milestones with animated badge cards
+- 🔔 **Smart Notifications** — In-app toast notifications and email alerts via SendGrid for budgets, goals, and weekly summaries
+- 📈 **Spending Outlook** — AI-powered spending analysis with interactive charts and forecasts
+- 🔒 **Secure Auth** — JWT-based authentication with bcrypt password hashing
 ---
-
+ 
 ## ✨ Features
-
-### Current Features (v0.2.0)
-
-- ✅ **User Authentication**
-  - Secure signup and login with JWT tokens
-  - Password validation (uppercase, lowercase, numbers, symbols)
-  - Protected routes and session management
-
-- ✅ **Transaction Management**
-  - Create, read, update, and delete transactions
-  - Filter by category, type, and date
-  - Automatic balance calculation
-  - Bank simulator for generating realistic test data
-
-- ✅ **Dashboard Overview**
-  - Total balance display
-  - Top spending categories
-  - Recent transaction history
-  - Budget and goal progress tracking
-
-<div align="center">
-
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.12-blue.svg)
-![React](https://img.shields.io/badge/react-18.2-blue.svg)
-![TypeScript](https://img.shields.io/badge/typescript-5.3-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green.svg)
-
-**Take control of your finances with AI-powered insights**
-
-[Features](#-features) • [Demo](#-demo) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
-
-</div>
-
+ 
+### ✅ Completed Features (v1.0.0)
+ 
+| Feature | Description |
+|---|---|
+| User Authentication | Signup, login, JWT tokens, password change |
+| Bank Integration | Connect Freedom Bank, auto-sync transactions |
+| Transaction Management | View, filter, search transactions by category/type |
+| Budget Tracking | Create/edit/delete budgets with progress bars and alerts |
+| Savings Goals | Create goals, make deposits, track progress |
+| AI Assistant | Chat with BudgetWise AI — create goals, analyze finances |
+| Spending Outlook | AI spending analysis with bar, line, and pie charts |
+| Rewards & XP | Badge system with animations, level progression |
+| Notifications | In-app toasts + email notifications with per-event toggles |
+| Weekly Scheduler | Automated weekly summary emails every Sunday |
+| Goal Reminders | Biweekly automated goal deposit reminder emails |
+| Settings | Tabbed settings — details, profile, notifications, danger zone |
+| Account Deletion | Full account + data deletion with confirmation |
+| Avatar Customization | Color-picker avatar with initials |
+| Chat History | Persistent AI chat history stored in MySQL |
+ 
 ---
-
-## 📖 About
-
-BudgetWise is a modern, full-stack personal finance management application designed to help users track their spending, create budgets, set financial goals, and receive AI-powered financial insights. Built as an educational project, it demonstrates best practices in web development, API design, and user experience.
-
-### Why BudgetWise?
-
-- **🎯 Smart Budgeting**: Set category-based budgets and track spending in real-time
-- **📊 Transaction Tracking**: Monitor all your income and expenses in one place
-- **🎯 Goal Setting**: Create savings goals and track your progress
-- **🤖 AI Insights**: Get personalized financial recommendations (coming soon)
-- **🔒 Secure**: JWT-based authentication with encrypted password storage
-- **🎨 Modern UI**: Clean, intuitive interface with responsive design
-- **📱 No Bank Connection Required**: Perfect for learning and demonstration purposes
-
----
-
-## ✨ Features
-
-### Current Features (v0.2.0)
-
-- ✅ **User Authentication**
-  - Secure signup and login with JWT tokens
-  - Password validation (uppercase, lowercase, numbers, symbols)
-  - Protected routes and session management
-
-- ✅ **Transaction Management**
-  - Create, read, update, and delete transactions
-  - Filter by category, type, and date
-  - Automatic balance calculation
-  - Bank simulator for generating realistic test data
-
-- ✅ **Dashboard Overview**
-  - Total balance display
-  - Top spending categories
-  - Recent transaction history
-  - Budget and goal progress tracking
-
-### Coming Soon
-
-- 🚧 **Budget Creation & Tracking** (Phase 3)
-- 🚧 **Savings Goals** (Phase 4)
-- 🚧 **AI-Powered Insights** via Azure AI (Phase 5)
-- 🚧 **Spending Forecasts & Alerts** (Phase 6)
-- 🚧 **Achievements & Rewards** (Phase 7)
-- 🚧 **Export Data & Reports** (Phase 8)
-
----
-
-### Screenshots
-
-> **Note:** Add screenshots here once UI is complete
-
----
-
+ 
 ## 🛠️ Tech Stack
-
-<table>
-<tr>
-<td>
-
-**Frontend**
-- React 18.2 with TypeScript
-- React Router for navigation
-- Axios for API requests
-- Custom styling (inline CSS)
-- JWT token management
-
-</td>
-<td>
-
-**Backend**
-- Python 3.12
-- FastAPI framework
-- Pydantic for validation
-- Python-JOSE for JWT
-- Passlib for password hashing
-- JSON file storage (no DB required)
-
-</td>
-</tr>
-</table>
-
-### Why These Technologies?
-
-- **FastAPI**: Modern, fast, and auto-generates API documentation
-- **React + TypeScript**: Type-safe frontend development with excellent tooling
-- **JWT Authentication**: Industry-standard, stateless authentication
-- **JSON Storage**: Simplifies setup for educational/demo purposes (easily replaceable with PostgreSQL/MongoDB)
-
+ 
+### Frontend
+- **React 18.2** with TypeScript
+- **React Router** for navigation
+- **Axios** for API requests
+- **Recharts** for data visualization
+- **Custom inline CSS** with dark green theme
+### Backend
+- **Python 3.12** with **FastAPI**
+- **SQLAlchemy ORM** with **MySQL 8.0**
+- **APScheduler** for automated weekly/biweekly jobs
+- **SendGrid** for transactional email
+- **JWT** authentication with bcrypt password hashing
+### External Services
+- **Freedom Bank** — Firebase emulator simulating a real bank
+- **Azure AI Foundry** — AI assistant powered by GPT-4o-mini
+- **SendGrid** — Email notification delivery
 ---
-
+ 
 ## 🚀 Quick Start
-
+ 
 ### Prerequisites
-
-Ensure you have the following installed:
-- **Node.js** 18+ and npm ([Download](https://nodejs.org/))
-- **Python** 3.12 ([Download](https://www.python.org/downloads/))
-- **Git** ([Download](https://git-scm.com/))
-
-> ⚠️ **Important:** Use Python 3.12, not 3.13 or 3.14 (dependency compatibility issues)
-
-### Installation
-
-#### 1️⃣ Clone the Repository
+ 
+| Tool | Version | Download |
+|---|---|---|
+| Node.js | v18+ | https://nodejs.org |
+| Python | 3.12 exactly | https://python.org |
+| MySQL | 8.0+ | https://dev.mysql.com/downloads |
+| Git | Latest | https://git-scm.com |
+| Firebase CLI | Latest | `npm install -g firebase-tools` |
+ 
+> ⚠️ **Use Python 3.12 exactly.** Python 3.13+ has compatibility issues with some dependencies.
+ 
+---
+ 
+### 1️⃣ Clone the Repository
+ 
 ```bash
-git clone https://github.com/yourusername/budgetwise.git
-cd budgetwise
+git clone https://github.com/MarlonCSUN/BudgetWiseAI.git
+cd BudgetWiseAI
 ```
-
-#### 2️⃣ Backend Setup
-
-**Windows (PowerShell):**
+ 
+---
+ 
+### 2️⃣ Database Setup
+ 
+Open MySQL Workbench and run:
+ 
+```sql
+CREATE DATABASE budgetwise;
+```
+ 
+---
+ 
+### 3️⃣ Backend Setup
+ 
 ```powershell
 cd backend
-py -3.12 -m venv venv
+copy .env.example .env
+# Fill in your values (see Environment Variables section below)
+ 
+python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
-# Create environment file
-copy .env.example .env
-# Edit .env and set a strong SECRET_KEY
-
-# Initialize data storage
-mkdir data -ErrorAction SilentlyContinue
-"[]" | Out-File -FilePath "data\users.json"
-"[]" | Out-File -FilePath "data\transactions.json"
-"[]" | Out-File -FilePath "data\budgets.json"
-"[]" | Out-File -FilePath "data\goals.json"
-
-# Start server
+python create_tables.py
+ 
 uvicorn app.main:app --reload --port 8000
 ```
-
-**macOS/Linux:**
-```bash
-cd backend
-python3.12 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Create environment file
-cp .env.example .env
-# Edit .env and set a strong SECRET_KEY
-
-# Initialize data storage
-mkdir -p data
-echo "[]" > data/users.json
-echo "[]" > data/transactions.json
-echo "[]" > data/budgets.json
-echo "[]" > data/goals.json
-
-# Start server
-uvicorn app.main:app --reload --port 8000
+ 
+✅ Backend running at: `http://localhost:8000`
+ 
+---
+ 
+### 4️⃣ Freedom Bank Emulator
+ 
+```powershell
+cd D:\path\to\freedom-bank-main\freedom-bank-main\functions
+npm install
+cd ..
+firebase emulators:start
 ```
-
-✅ Backend running at: **http://localhost:8000**  
-📚 API Docs at: **http://localhost:8000/docs**
-
-#### 3️⃣ Frontend Setup
-
-Open a **new terminal** (keep backend running):
-```bash
+ 
+✅ Emulator UI at: `http://127.0.0.1:4000`
+ 
+---
+ 
+### 5️⃣ Frontend Setup
+ 
+```powershell
 cd frontend
 npm install
-
-# Create environment file
-cp .env.example .env
-
-# Start development server
 npm start
 ```
-
-✅ Frontend running at: **http://localhost:3000**
-
+ 
+✅ App running at: `http://localhost:3000`
+ 
 ---
-
-## 📚 Documentation
-
-### API Endpoints
-
-Full interactive API documentation available at `http://localhost:8000/docs` when running.
-
-#### Authentication
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
+ 
+### Running All Three Services
+ 
+You need **three terminals** open simultaneously:
+ 
+| Terminal | Command |
+|---|---|
+| Terminal 1 | `cd freedom-bank-main && firebase emulators:start` |
+| Terminal 2 | `cd backend && .\venv\Scripts\Activate.ps1 && uvicorn app.main:app --reload --port 8000` |
+| Terminal 3 | `cd frontend && npm start` |
+ 
+---
+ 
+## ⚙️ Environment Variables
+ 
+Create `backend/.env` using `backend/.env.example` as a template:
+ 
+```env
+DATABASE_URL=mysql+pymysql://root:YOUR_PASSWORD@localhost:3306/budgetwise
+SECRET_KEY=your_secret_key_here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=43200
+ 
+SENDGRID_API_KEY=SG.your_key_here
+SENDGRID_FROM_EMAIL=your_verified_sender@email.com
+SENDGRID_FROM_NAME=BudgetWise
+ 
+AZURE_AI_ENDPOINT=https://your-resource.services.ai.azure.com/...
+AZURE_AI_KEY=your_azure_key_here
+AZURE_AI_DEPLOYMENT=asst_your_assistant_id
+ 
+FIREBASE_EMULATOR=true
+FREEDOM_BANK_URL=http://127.0.0.1:5001/freedom-bank-ecf5c/us-central1
+```
+ 
+> 🔐 **Never commit `.env` to version control.** Get API keys from the project owner directly.
+ 
+---
+ 
+## 🏦 Generating Test Transactions
+ 
+Since Freedom Bank is a mock bank, transactions must be generated manually via PowerShell:
+ 
+**Step 1 — Get a JWT token:**
+```powershell
+Invoke-WebRequest -Method POST -Uri "http://127.0.0.1:8000/api/v1/auth/login" `
+  -ContentType "application/json" `
+  -Body '{"username":"YOUR_USERNAME","password":"YOUR_PASSWORD"}' `
+  -UseBasicParsing
+```
+ 
+**Step 2 — Generate a transaction (run multiple times):**
+```powershell
+Invoke-WebRequest -Method GET -Uri "http://127.0.0.1:8000/api/v1/bank/tick" `
+  -Headers @{Authorization="Bearer PASTE_TOKEN_HERE"} `
+  -UseBasicParsing
+```
+ 
+Transactions appear automatically on the Activity page after syncing.
+ 
+---
+ 
+## 📚 API Endpoints
+ 
+Full interactive docs at `http://localhost:8000/docs`
+ 
+### Authentication
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
 | POST | `/api/v1/auth/signup` | Register new user | ❌ |
-| POST | `/api/v1/auth/login` | Login and get JWT token | ❌ |
-| GET | `/api/v1/auth/me` | Get current user info | ✅ |
-
-#### Transactions
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/v1/transactions/` | List all transactions (with filters) | ✅ |
-| GET | `/api/v1/transactions/balance` | Get account balance | ✅ |
-| GET | `/api/v1/transactions/{id}` | Get single transaction | ✅ |
+| POST | `/api/v1/auth/login` | Login and get JWT | ❌ |
+| GET | `/api/v1/auth/me` | Get current user | ✅ |
+| PUT | `/api/v1/auth/me` | Update profile | ✅ |
+| PUT | `/api/v1/auth/me/password` | Change password | ✅ |
+| DELETE | `/api/v1/auth/me` | Delete account | ✅ |
+ 
+### Transactions
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| GET | `/api/v1/transactions/` | List transactions | ✅ |
+| GET | `/api/v1/transactions/balance` | Get balance | ✅ |
 | POST | `/api/v1/transactions/` | Create transaction | ✅ |
 | PUT | `/api/v1/transactions/{id}` | Update transaction | ✅ |
 | DELETE | `/api/v1/transactions/{id}` | Delete transaction | ✅ |
-| POST | `/api/v1/transactions/generate-sample` | Generate test data | ✅ |
-
-### Project Structure
+ 
+### Budgets, Goals, Rewards, AI, Bank, Notifications
+All endpoints follow the same pattern under `/api/v1/{resource}/`. See `/docs` for full reference.
+ 
+---
+ 
+## 🗂️ Project Structure
+ 
 ```
-budgetwise/
-├── backend/                    # FastAPI backend
+BudgetWiseAI/
+├── backend/
 │   ├── app/
-│   │   ├── api/               # API routes
-│   │   │   └── v1/
-│   │   │       ├── endpoints/ # Route handlers
-│   │   │       └── api.py     # Router configuration
-│   │   ├── core/              # Core functionality
-│   │   │   ├── config.py      # Settings
-│   │   │   └── security.py    # Auth utilities
-│   │   ├── models/            # Data models
-│   │   ├── schemas/           # Pydantic schemas
-│   │   ├── services/          # Business logic
-│   │   ├── storage/           # Data persistence
-│   │   └── main.py            # Application entry
-│   ├── data/                  # JSON data files (gitignored)
-│   ├── requirements.txt       # Python dependencies
-│   └── .env                   # Environment variables (gitignored)
+│   │   ├── api/v1/endpoints/     # Route handlers (auth, budgets, goals, bank, ai, notifications)
+│   │   ├── core/                 # Config, security, database
+│   │   ├── models/               # SQLAlchemy ORM models
+│   │   ├── schemas/              # Pydantic schemas
+│   │   ├── services/             # Business logic (sync, ai, notification, scheduler)
+│   │   └── main.py               # App entry + scheduler startup
+│   ├── create_tables.py
+│   ├── requirements.txt
+│   └── .env                      # Secret — never commit
 │
-├── frontend/                   # React frontend
+├── frontend/
 │   ├── src/
-│   │   ├── components/        # Reusable components
-│   │   ├── pages/             # Page components
-│   │   ├── services/          # API services
-│   │   ├── context/           # React context
-│   │   ├── types/             # TypeScript types
-│   │   └── routes.tsx         # Route configuration
-│   ├── package.json
-│   └── .env                   # Environment variables (gitignored)
+│   │   ├── components/layout/    # Sidebar, Layout, ToastContainer
+│   │   ├── context/              # AuthContext, NotificationContext
+│   │   ├── pages/                # Dashboard, Activity, Budgets, Goals, Rewards, Settings, AI pages
+│   │   ├── services/             # API service layer
+│   │   └── types/                # TypeScript interfaces
+│   └── package.json
 │
 └── README.md
 ```
-
+ 
+---
+ 
+## 🔔 Notification System
+ 
+BudgetWise supports both **in-app toast notifications** and **email notifications** for:
+ 
+| Event | In-App | Email |
+|---|---|---|
+| Budget exceeded | ✅ | ✅ |
+| Goal completed | ✅ | ✅ |
+| Transactions synced | ✅ | ✅ |
+| Goal deposit reminder | ✅ | ✅ (biweekly) |
+| Weekly spending summary | ✅ | ✅ (every Sunday 9am) |
+ 
+Each notification type can be toggled independently in **Settings → Notifications**.
+ 
+---
+ 
+## 🤖 AI Assistant
+ 
+The AI assistant is powered by **Azure AI Foundry** (GPT-4o-mini) and has access to your real financial data on every message:
+ 
+- ✅ Answer questions about your spending, budgets, and goals
+- ✅ Create savings goals directly from conversation
+- ✅ Create budgets from conversation
+- ✅ Update and delete goals via chat
+- ✅ Redirect to Spending Outlook for a full financial overview
+- ✅ Persistent chat history stored in MySQL
+---
+ 
+## 🏆 Rewards System
+ 
+- **12 badges** across 3 categories: Transactions, Budgets, Goals
+- **XP-based leveling** — 100 XP per level, earned from badges
+- **Animated badge cards** — spin on hover and on entry
+- **Animated XP bar** with shine effect on fill
+- **Per-category progress bars** with color coding
+---
+ 
+## 🔒 Security Notes
+ 
+- Passwords are hashed with **bcrypt** — never stored in plain text
+- JWTs expire after **30 days** (configurable)
+- `.env` is **gitignored** — never commit secrets
+- Account deletion removes **all user data** permanently
+- Firebase tokens refresh automatically on bank reconnect
 ---
 
-## 🧪 Testing
-
-### Quick Test Guide
-
-1. **Start both servers** (backend and frontend)
-
-2. **Create an account:**
-   - Go to http://localhost:3000/signup
-   - Fill in the form with valid data
-   - Password must have: uppercase, lowercase, number, symbol, 8+ chars
-
-3. **Generate sample transactions:**
-   - Login to get JWT token at http://localhost:8000/docs
-   - Use `POST /api/v1/transactions/generate-sample`
-   - Set count to 30 for a month of data
-
-4. **Explore the API:**
-   - Visit http://localhost:8000/docs
-   - Use the "Authorize" button with your JWT token
-   - Try different endpoints and filters
-
-### Running Tests
-```bash
-# Backend tests (coming soon)
-cd backend
-pytest
-
-# Frontend tests (coming soon)
-cd frontend
-npm test
-```
+## 📄 License
+ 
+This project was built as an educational capstone project at California State University, Northridge.
